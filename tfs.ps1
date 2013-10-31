@@ -20,7 +20,7 @@ set-alias gtp Push-ProjectFolder
 function Get-WorkItem([int]$wi) { 
     tfpt workitem $wi
 }
-set-alias gwi GetWorkItem
+set-alias gwi Get-WorkItem
 
 function Get-LatestVersion() {
     tf.exe get . /version:T /recursive /force
@@ -37,7 +37,7 @@ function Get-MyWorkItems()
     tfpt query /wiql:$query /include:data
 }
 
-function Get-CheckedOut
+function Get-CheckedOut()
 {
 	tf status . /user:* /recursive
 }
@@ -94,8 +94,10 @@ function Add-Shelfset($comment)
 }
 set-alias shelve Add-Shelfset
 
-function Review-Code(Param([Parameter(Mandatory=$true,HelpMessage="Enter a shelf name")]$shelvesetName))
+function Review-Code
 {
+    Param([Parameter(Mandatory=$true, HelpMessage="Enter a shelf name")] $shelvesetName)
+
     tfpt review /shelveset:$shelvesetName
 }
 
