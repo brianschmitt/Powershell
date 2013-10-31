@@ -29,9 +29,10 @@ $Env:HOMESHARE = $ENV:HOME
 # Queries AD and will display the user information
 # Requires RSAT tools to be install and the "Windows Feature" to be enabled
 # Control Panel -> Windows Features -> Remote Server Administration Tools -> Role Administration Tools -> AD DS and AD LDS Tools -> Active Directory Module for Windows Powershell
-function Who($user) {
+function Get-User($user) {
 	Get-ADUser $user -Properties EmployeeNumber, GivenName, Surname, EmailAddress, OfficePhone, PostalCode, City, StreetAddress, Office,Company, Title, SID | select EmployeeNumber, Name, EmailAddress, OfficePhone, Office, Company, Title
 }
+set-alias who Get-User
 
 # Type ver to get version information...
 function Ver() {
