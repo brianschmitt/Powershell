@@ -12,7 +12,7 @@ $Env:HOMESHARE = $ENV:HOME
 . (join-path $scriptRoot "/tfs.ps1")
 
 # Helper functions for VM instances
-. (join-path $scriptRoot "/BSDevelopment.ps1")
+. (join-path $scriptRoot "/azure.ps1")
 
 # Proxy helper functions for home and office
 . (join-path $scriptRoot "/proxy.ps1")
