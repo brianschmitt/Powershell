@@ -7,11 +7,13 @@ Import-AzurePublishSettingsFile '~\.ssh\azure.publishsettings'
 function Start-Azure {
     Param([Parameter(Mandatory=$true, HelpMessage="Enter a VM name")] $VirtualMachineName)
     $azurevm = Get-AzureVM | Where-Object {$_.Name -like $VirtualMachineName + "*"} | select ServiceName, Name
+    Write-Host Starting $azurevm.Servicename
 	Start-AzureVM -ServiceName $azurevm.servicename -Name $azurevm.name
 }
 
 function Stop-Azure {
     Param([Parameter(Mandatory=$true, HelpMessage="Enter a VM name")] $VirtualMachineName)
     $azurevm = Get-AzureVM | Where-Object {$_.Name -like $VirtualMachineName + "*"} | select servicename, Name
-	Stop-AzureVM -ServiceName $azurevm.servicename -Name $azurevm.name
+    Write-Host Stopping $azurevm.Servicename
+	Stop-AzureVM -ServiceName $azurevm.servicename -Name $azurevm.name -Force
 }
