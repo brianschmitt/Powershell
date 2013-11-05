@@ -15,7 +15,7 @@
 ## Change log  : 1.0 - Initial Version
 ## =====================================================================
 $scriptRoot = Split-Path (Resolve-Path $myInvocation.MyCommand.Path)
-$serverfile = . (join-path $scriptRoot "/servers.txt")
+$serverfile = (join-path $scriptRoot "/servers.txt")
 
 function Execute-Query ($filter, $sqlQuery) {
 
@@ -26,7 +26,7 @@ function Execute-Query ($filter, $sqlQuery) {
         $private:tmp = $ad.Fill($dt)
         return $dt
     }
-	
+
     $databases = @{}
 	Get-Content $serverfile | foreach {
 		if ($_.ToString().Contains($filter)) {
