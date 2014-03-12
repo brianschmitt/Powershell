@@ -73,7 +73,7 @@ function Get-ImpactAnalysis
                    from all_dependencies
                    WHERE referenced_owner NOT IN ('SYS', 'SYSTEM')
                    AND upper(referenced_name) LIKE '{0}'
-                   "@
+"@
 
                    $fullQuery = $qry -F $dbobjectName.trim().toupper()
 # due to connecting to multiple schemas we will frequently have duplicates
