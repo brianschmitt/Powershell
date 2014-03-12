@@ -20,8 +20,8 @@ $Env:HOMESHARE = $ENV:HOME
 # Set environment variables for Visual Studio Command Prompt
 . (join-path $scriptRoot "/vsvars.ps1")
 
-# Load posh-git - Need a better way - currently installed via chocolatey
-. 'C:\tools\poshgit\dahlbyk-posh-git-36d072f\profile.example.ps1'
+# Load posh-git
+. (join-path $scriptRoot "/posh-git/profile.example.ps1")
 
 # Helper functions to assist with directory list commands
 . (join-path $scriptRoot "/directory.ps1")
