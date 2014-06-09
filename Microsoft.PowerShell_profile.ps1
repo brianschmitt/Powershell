@@ -11,6 +11,9 @@ $scriptRoot = Split-Path (Resolve-Path $myInvocation.MyCommand.Path)
 # Helper functions for TFS
     . (join-path $scriptRoot "/tfs.ps1")
 
+# Helper functions for git
+    . (join-path $scriptRoot "/git.ps1")
+
 # Helper functions for VM instances
 #. (join-path $scriptRoot "/azure.ps1")
 
@@ -40,4 +43,14 @@ set-alias who Get-User
 # Type ver to get version information...
 function Ver() {
     $PSVersionTable
+}
+
+function prompt {
+	$userLocation = $env:username + '@' + [System.Environment]::MachineName
+	$host.UI.RawUi.WindowTitle = $userLocation
+    Write-Host($userLocation) -NoNewline -ForegroundColor DarkGreen
+    Write-Host(' ' + $pwd) -NoNewline
+    Write-VcsStatus
+	Write-Host('>') -NoNewline
+	return " "
 }
