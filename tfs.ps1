@@ -3,7 +3,7 @@
 Add-PSSnapin Microsoft.TeamFoundation.PowerShell
 
 # Configuration
-$project_folder = "C:\.PersonalProjects"
+$project_folder = "C:\.Projects"
 $me = "Schmitt, Brian"
 
 ## Most of these function rely on tfpt and tf
