@@ -3,7 +3,7 @@
 # http://stackoverflow.com/questions/2124753/how-i-can-use-powershell-with-the-visual-studio-command-prompt
 #
  
-pushd 'c:\Program Files (x86)\Microsoft Visual Studio 12.0\VC'
+pushd 'c:\Program Files (x86)\Microsoft Visual Studio 11.0\VC'
 cmd /c "vcvarsall.bat&set" |
 foreach {
   if ($_ -match "=") {
