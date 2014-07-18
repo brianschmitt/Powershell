@@ -32,6 +32,9 @@ $scriptRoot = Split-Path (Resolve-Path $myInvocation.MyCommand.Path)
 # Helper functions to assist with AP commands
     . (join-path $scriptRoot "/apci.ps1")
 
+# Load tab completion (https://github.com/lzybkr/TabExpansionPlusPlus)
+#Import-Module TabExpansion++
+
 # Queries AD and will display the user information
 # Requires RSAT tools to be install and the "Windows Feature" to be enabled
 # Control Panel -> Windows Features -> Remote Server Administration Tools -> Role Administration Tools -> AD DS and AD LDS Tools -> Active Directory Module for Windows Powershell
