@@ -113,3 +113,15 @@ function Compare-Deployment() {
 
         tf folderdiff /recursive $source $target $args[0] /filter:"!*.xsd;!*.wsdl;!*.svcinfo;!AssemblyInfo.cs;!Reference.*"
 }
+
+function Find-TFSFile($filePattern) {
+    if (!$filePattern)
+    {
+        Write-Host "`r`n Define file pattern! `r`n" -ForegroundColor Red
+        return
+    }
+
+    # navigate to our "Projects" root folder
+    Push-ProjectFolder
+    tf dir /recursive $/$filePattern
+}
