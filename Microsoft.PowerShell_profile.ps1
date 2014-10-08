@@ -10,7 +10,6 @@ Import-Module (join-path $scriptRoot "/posh-tf/posh-tf.psm1")
 . (join-path $scriptRoot "/azure.ps1") # Helper functions for VM instances
 . (join-path $scriptRoot "/vsvars.ps1") # Set environment variables for Visual Studio Command Prompt
 . (join-path $scriptRoot "/tfs.ps1") # Helper functions for TFS
-. (join-path $scriptRoot "/New-NugetPackage.ps1")
 . (join-path $scriptRoot "/directory.ps1") # Helper functions to assist with directory list commands
 . (join-path $scriptRoot "/apci/apci.ps1") # Helper functions to assist with AP commands
 . (join-path $scriptRoot "/activedirectory.ps1") # Helper functions to assist with AD commands
