@@ -1,6 +1,6 @@
-
+#$dte = [runtime.interopservices.marshal]::GetActiveObject("visualstudio.dte")
 # Function to format all documents based on https://gist.github.com/984353
-function Format-Document {
+function Format-AllDocuments {
     param(
         [parameter(ValueFromPipelineByPropertyName = $true)]
         [string[]]$ProjectName
@@ -137,17 +137,45 @@ function Refactor-StringFormat()
     $DTE.ActiveDocument.Selection.Text = $output -F $hardStrings, $valueStrings
 }
 
-# WIP translating a macro
+# WIP translating a macro...
 function Refactor-RemoveRegions()
 {
     $regex = [regex] "^.*\#(end)*(?([^\r\n])\s)*region.*\n"
+    param(
+        [parameter(ValueFromPipelineByPropertyName = $true)]
+        [string[]]$ProjectName
+    )
+    Process {
+        $ProjectName | %{
+                        Recurse-Project -ProjectName $_ -Action { param($item)
+                        if($item.Type -eq 'Folder' -or !$item.Language) {
+                            return
+                        }
+
+                        $window = $item.ProjectItem.Open('{7651A701-06E5-11D1-8EBD-00A0C90F26EA}')
+                        if ($window) {
+                            Write-Host "Processing `"$($item.ProjectItem.Name)`""
+                            [System.Threading.Thread]::Sleep(100)
+                            $dte.ExecuteCommand("Edit.FindinFiles")
+                            $dte.Find.FindWhat = "^.*\#(end)*(?([^\r\n])\s)*region.*\n"
+                            $dte.Find.FilesOfType = "*.*"
+                            $dte.Find.Action = 2
+                            $dte.Find.Target = 3
+                            $dte.Find.PatternSyntax = EnvDTE.vsFindPatternSyntax.vsFindPatternSyntaxRegExpr
+                            $dte.Find.ReplaceWith = [string]::Empty
+
+                            $window.Activate()
+                            $Item.ProjectItem.Document.DTE.ExecuteCommand('Edit.FormatDocument')
+                            $Item.ProjectItem.Document.DTE.ExecuteCommand('Edit.RemoveAndSort')
+                            $window.Close(1)
+                        }
+                    }
+        }
+    }
 }
 
-# WIP translating a macro
 function Locate-Item()
 {
-    $DTE.ExecuteCommand("View.TrackActivityinSolutionExplorer")
-    $DTE.ExecuteCommand("View.TrackActivityinSolutionExplorer")
-    $DTE.ExecuteCommand("View.SolutionExplorer")
+    $dte.ExecuteCommand("SolutionExplorer.SyncWithActiveDocument")
 }
 
