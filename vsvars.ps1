@@ -16,5 +16,5 @@ if (Test-Path $VSVarsPath) {
     Pop-Location
     Write-Host "`nVisual Studio Command Prompt variables set." -ForegroundColor DarkBlue
 } else {
-    Write-Host "Visual Studio not installed or not found" -ForegroundColor Red
+    Write-Warning "Visual Studio not installed or not found"
 }

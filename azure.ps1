@@ -5,7 +5,7 @@
 if (Test-Path '~\.ssh\azure.publishsettings') {
     Import-AzurePublishSettingsFile '~\.ssh\azure.publishsettings'
 } else {
-    Write-Output 'Missing the publish file, please download and save'
+    Write-Warning 'Missing the publish file, please download and save'
     Get-AzurePublishSettingsFile
 }
 
