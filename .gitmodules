@@ -1,11 +1,9 @@
 [submodule "posh-git"]
         path = posh-git
         url = https://github.com/brianschmitt/posh-git
-        ignore = dirty
 [submodule "posh-tf"]
         path = posh-tf
         url = https://github.com/brianschmitt/posh-tf
-        ignore = dirty
 [submodule "powercat"]
         path = powercat
         url = https://github.com/besimorhino/powercat
