@@ -1,127 +1,92 @@
-# For 2010 on x64 run the following
-# copy HKLM:\SOFTWARE\Wow6432Node\Microsoft\PowerShell\1\PowerShellSnapIns\Microsoft.TeamFoundation.PowerShell HKLM:\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\Microsoft.TeamFoundation.PowerShell -r
-Add-PSSnapin Microsoft.TeamFoundation.PowerShell
-
-# Configuration
-$project_folder = "C:\.Projects"
-$me = "Schmitt, Brian"
-
-## Most of these function rely on tfpt and tf
+## Most of these functions rely on tfpt and tf
 ## They should be found on the Env:Path
 ## They also require that you initiate the commands while in the TFS mapped folders
 
-function Push-ProjectFolder() {
+Add-PSSnapin Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue
+
+# Configuration
+$project_folder = "V:\.Projects"
+$me = "Schmitt, Brian"
+
+function Push-ProjectFolder {
     $location = (get-location).Path
-        if ($location -ne $project_folder) {
-            pushd .
-                cd $project_folder
-        }
+    if ($location -ne $project_folder) {
+        Push-Location .
+        cd $project_folder
+    }
 }
 set-alias gtp Push-ProjectFolder
 
-function Get-WorkItem([int]$wi) {
+function Find-TFSWorkItem([int]$wi) {
     tfpt workitem $wi
 }
-set-alias gwi Get-WorkItem
+set-alias fwi Find-TFSWorkItem
 
-function Get-LatestVersion() {
+function Get-TFSLatestVersion() {
     tf.exe get . /version:T /recursive /force
 }
 
-function Get-MyWorkItems()
-{
+function Get-TFSProjects {
+    Get-ChildItem -filter *.sln -Recurse | % { cd $_.Directory; tf get . /recursive }
+}
+
+function Find-TFSWorkItems ($assignee = $me) {
     $query = "SELECT [System.Id], [System.Title] FROM WorkItems " +
-        "WHERE [System.AssignedTo] = '$me' " +
+        "WHERE [System.AssignedTo] = '$assignee' " +
         "AND [System.State] <> 'Closed' " +
         "AND [System.State] <> 'Resolved' " +
         "ORDER BY [System.Id]"
 
-        tfpt query /wiql:$query /include:data
+    tfpt query /wiql:$query /include:data
 }
 
-function Get-CheckedOut()
-{
-    tf status . /user:* /recursive
+function Find-TFSCheckedOut ($owner = "*") {
+    tf status . /user:$owner /recursive
 }
 
-function Get-OldShelfsets()
-{
-    Get-TfsShelveset | where { $_.CreationDate -le [DateTime]::Now.AddDays(-90) }
+function Find-TFSShelveset ($age = 90, $owner = "*") { # $owner = $env:USERNAME
+    $age = $age * -1 #add days needs a negative number
+    Get-TfsShelveset -owner $owner | where { $_.CreationDate -gt [DateTime]::Now.AddDays($age) }
 }
 
-function Get-TopLinesOfCode()
-{
-    Write-Host Processing ...
-        $includefilter = @("*.cs","*.as?x")
-        $excludefilter = @("AssemblyInfo.cs","Reference.*","*.designer.cs")
-        $topresultcount = 20
-        $files = Get-ChildItem . -Recurse -Include $includefilter -Exclude $excludefilter
-        $processedfiles = @();
-    $totalLines = 0;
-    foreach ($x in $files)
-    {
-        $name= $x.Name;
-        $lines= (Get-Content ($x.Fullname) | `
-                Measure-Object –Line ).Lines;
-        $object = New-Object Object;
-        $object | Add-Member -MemberType noteproperty `
-            -name Name -value $name;
-        $object | Add-Member -MemberType noteproperty `
-            -name Lines -value $lines;
-        $processedfiles += $object;
-        $totalLines += $lines;
-    }
+function Get-TopLinesOfCode {
+ param([int][ValidateRange(1,1000)]$topresultcount = 20)
+    $includefilter = @("*.cs","*.as?x")
+    $excludefilter = @("AssemblyInfo.*","Reference.*","*.designer.cs")
+    $files = Get-ChildItem . -Recurse -Include $includefilter -Exclude $excludefilter
+    $processedfiles = $files | select name, @{Name="Lines"; Expression={$(Get-Content ($_.Fullname) | Measure-Object –Line).Lines}}
+    #$totalLines = ($processedfiles | Measure-Object Lines -Sum).Sum
     $processedfiles | sort-object -property Lines -Descending | select -First $topresultcount
-#$processedfiles | Where-Object {$_.Lines -gt 100} | `
-#    sort-object -property Lines -Descending
-        Write-Host ... Top $topresultcount results
-        Write-Host Total Lines $totalLines In Files $processedfiles.count
+    #Write-Host ... Top $topresultcount results
+    #Write-Host Total lines $totalLines in $processedfiles.count files
 }
 
-function Undo-UnChanged
-{
+function Undo-TFSUnChanged {
     tfpt uu /recursive /noget
 }
 
-function Add-Shelfset($comment)
-{
+function Add-TFSShelfset($comment) {
     if (!$comment)
     {
         $comment = "Work in progress checkpoint"
     }
 
     $shelfsetName = "WIP_" + [DateTime]::Now.ToString("yyyy.MM.dd.HHmm")
-        tf shelve $shelfsetName /comment:$comment /noprompt /replace /recursive
-        Write-Host $shelfsetName Created
+    tf shelve $shelfsetName /comment:$comment /noprompt /replace /recursive
+    Write-Output $shelfsetName Created
 }
-set-alias shelve Add-Shelfset
+set-alias shelve Add-TFSShelfset
 
-function Review-Code
-{
+function Review-TFSCode {
     Param([Parameter(Mandatory=$true, HelpMessage="Enter a shelf name")] $shelvesetName)
-
-        tfpt review /shelveset:$shelvesetName
-}
-
-# Specific to our TFS set-up
-# this will grab the latest version in the ProdTest and Production folders and compare them
-# this will result in a report that identifies all changed files
-# Can be utilized as a change report or for final code-review
-function Compare-Deployment() {
-    $source = Get-TfsChildItem ./ProdTest | Sort-Object CheckinDate -desc | Select-Object -First 1 -ExpandProperty ServerItem
-        $target = Get-TfsChildItem ./Production | Sort-Object CheckinDate -desc | Select-Object -First 1 -ExpandProperty ServerItem
-
-        tf folderdiff /recursive $source $target $args[0] /filter:"!*.xsd;!*.wsdl;!*.svcinfo;!AssemblyInfo.cs;!Reference.*"
+    tfpt review /shelveset:$shelvesetName
 }
 
 function Find-TFSFile($filePattern) {
-    if (!$filePattern)
-    {
+    if (!$filePattern) {
         Write-Host "`r`n Define file pattern! `r`n" -ForegroundColor Red
         return
     }
 
-    # navigate to our "Projects" root folder
-    Push-ProjectFolder
     tf dir /recursive $/$filePattern
 }
