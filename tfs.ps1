@@ -2,7 +2,10 @@
 ## They should be found on the Env:Path
 ## They also require that you initiate the commands while in the TFS mapped folders
 
-Add-PSSnapin Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue
+if ( (Get-PSSnapin -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null )
+{
+    Add-PsSnapin Microsoft.TeamFoundation.PowerShell
+}
 
 # Configuration
 $project_folder = "V:\.Projects"
