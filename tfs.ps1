@@ -4,7 +4,7 @@
 
 if ( (Get-PSSnapin -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null )
 {
-    if ((Get-PSSnapin -Registered -Name Microsoft.TeamFoundation.PowerShell) -eq $null) {
+    if ((Get-PSSnapin -Registered -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null) {
         Write-Warning "TFS Powershell snapin not found - Download the powertools and perform custom install"
     } else {
         Add-PsSnapin Microsoft.TeamFoundation.PowerShell
