@@ -13,8 +13,6 @@ Import-Module (join-path $scriptRoot "/posh-git/posh-git.psm1")
 Enable-GitColors
 Start-SshAgent -Quiet
 Import-Module (join-path $scriptRoot "/posh-tf/posh-tf.psm1")
-#$TFPromptSettings.EnableServerStatus = $false
-#$TFPromptSettings.Debug = $true
 
 # Type ver to get version information...
 function Get-PSVersion {
