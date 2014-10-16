@@ -2,12 +2,13 @@
 ## They should be found on the Env:Path
 ## They also require that you initiate the commands while in the TFS mapped folders
 
-if ( (Get-PSSnapin -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null )
-{
-    if ((Get-PSSnapin -Registered -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null) {
-        Write-Warning "TFS Powershell snapin not found - Download the powertools and perform custom install"
-    } else {
-        Add-PsSnapin Microsoft.TeamFoundation.PowerShell
+function Load-TFSPowershell() {
+    if ((Get-PSSnapin -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null) { #not loaded
+        if ((Get-PSSnapin -Registered -Name Microsoft.TeamFoundation.PowerShell -ErrorAction SilentlyContinue) -eq $null) { #not registered
+            Write-Warning "TFS Powershell snapin not found - Download the powertools and perform custom install"
+        } else {
+            Add-PsSnapin Microsoft.TeamFoundation.PowerShell
+        }
     }
 }
 
@@ -52,6 +53,7 @@ function Find-TFSCheckedOut ($owner = "*") {
 }
 
 function Find-TFSShelveset ($age = 90, $owner = "*") { # $owner = $env:USERNAME
+    Load-TFSPowershell
     $age = $age * -1 #add days needs a negative number
     Get-TfsShelveset -owner $owner | where { $_.CreationDate -gt [DateTime]::Now.AddDays($age) }
 }
