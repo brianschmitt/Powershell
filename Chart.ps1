@@ -1,4 +1,4 @@
-﻿# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 #http://poshcode.org/1330
 ### <Script>
 ### <Author>
@@ -44,47 +44,47 @@
 #######################
 function New-Chart
 {
-    param ([int]$width,[int]$height,[int]$left,[int]$top,[string]$chartTitle)
-    # create chart object
-    $global:Chart = New-object System.Windows.Forms.DataVisualization.Charting.Chart
-    $global:Chart.Width = $width
-    $global:Chart.Height = $height
-    $global:Chart.Left = $left
-    $global:Chart.Top = $top
-   # create a chartarea to draw on and add to chart
-    $chartArea = New-Object System.Windows.Forms.DataVisualization.Charting.ChartArea
-    $global:chart.ChartAreas.Add($chartArea)
+ param ([int]$width,[int]$height,[int]$left,[int]$top,[string]$chartTitle)
+# create chart object
+$global:Chart = New-object System.Windows.Forms.DataVisualization.Charting.Chart
+$global:Chart.Width = $width
+$global:Chart.Height = $height
+$global:Chart.Left = $left
+$global:Chart.Top = $top
+# create a chartarea to draw on and add to chart
+$chartArea = New-Object System.Windows.Forms.DataVisualization.Charting.ChartArea
+$global:chart.ChartAreas.Add($chartArea)
 
-    [void]$global:Chart.Titles.Add([string]$chartTitle)
+[void]$global:Chart.Titles.Add([string]$chartTitle)
 
-    # change chart area colour
-    $global:Chart.BackColor = [System.Drawing.Color]::Transparent
+# change chart area colour
+$global:Chart.BackColor = [System.Drawing.Color]::Transparent
 
 } #New-Chart
 
 #######################
 function New-BarColumnChart
 {
-    param ([hashtable]$ht, $chartType='Column', $chartTitle,$xTitle,$yTitle, [int]$width,[int]$height,[int]$left,[int]$top,[bool]$asc)
+ param ([hashtable]$ht, $chartType = 'Column', $chartTitle,$xTitle,$yTitle, [int]$width,[int]$height,[int]$left,[int]$top,[bool]$asc)
 
-    New-Chart -width $width -height $height -left $left -top $top -chartTile $chartTitle
+New-Chart -width $width -height $height -left $left -top $top -chartTile $chartTitle
 
-    $chart.ChartAreas[0].AxisX.Title = $xTitle
-    $chart.ChartAreas[0].AxisY.Title = $yTitle
+$chart.ChartAreas[0].AxisX.Title = $xTitle
+$chart.ChartAreas[0].AxisY.Title = $yTitle
 
-    [void]$global:Chart.Series.Add("Data")
-    $global:Chart.Series["Data"].Points.DataBindXY($ht.Keys, $ht.Values)
+[void]$global:Chart.Series.Add("Data")
+$global:Chart.Series["Data"].Points.DataBindXY($ht.Keys, $ht.Values)
 
-    $global:Chart.Series["Data"].ChartType = [System.Windows.Forms.DataVisualization.Charting.SeriesChartType]::$chartType
+$global:Chart.Series["Data"].ChartType = [System.Windows.Forms.DataVisualization.Charting.SeriesChartType]::$chartType
 
-    if ($asc)
-    { $global:Chart.Series["Data"].Sort([System.Windows.Forms.DataVisualization.Charting.PointSortOrder]::Ascending, "Y") }
-    else
-    { $global:Chart.Series["Data"].Sort([System.Windows.Forms.DataVisualization.Charting.PointSortOrder]::Descending, "Y") }
+if ($asc)
+{	$global:Chart.Series["Data"].Sort([System.Windows.Forms.DataVisualization.Charting.PointSortOrder]::Ascending, "Y") }
+else
+{	$global:Chart.Series["Data"].Sort([System.Windows.Forms.DataVisualization.Charting.PointSortOrder]::Descending, "Y") }
 
-    $global:Chart.Series["Data"]["DrawingStyle"] = "Cylinder"
-    $global:chart.Series["Data"].IsValueShownAsLabel = $true
-    $global:chart.Series["Data"]["LabelStyle"] = "Top"
+$global:Chart.Series["Data"]["DrawingStyle"] = "Cylinder"
+$global:chart.Series["Data"].IsValueShownAsLabel = $true
+$global:chart.Series["Data"]["LabelStyle"] = "Top"
 
 
 } #New-BarColumnChart
@@ -93,20 +93,20 @@ function New-BarColumnChart
 function New-LineChart
 {
 
-    param ([hashtable]$ht,$chartTitle, [int]$width,[int]$height,[int]$left,[int]$top)
+ param ([hashtable]$ht,$chartTitle, [int]$width,[int]$height,[int]$left,[int]$top)
 
-    New-Chart -width $width -height $height -left $left -top $top -chartTile $chartTitle
+New-Chart -width $width -height $height -left $left -top $top -chartTile $chartTitle
 
-    [void]$global:Chart.Series.Add("Data")
+[void]$global:Chart.Series.Add("Data")
 #    $global:Chart.Series["Data"].Points.AddXY($(get-date), $($ht.Values))
-    $global:Chart.Series["Data"].Points.DataBindXY($ht.Keys,$ht.Values)
+$global:Chart.Series["Data"].Points.DataBindXY($ht.Keys,$ht.Values)
 
-    #$global:Chart.Series["Data"].XValueType = [System.Windows.Forms.DataVisualization.Charting.ChartValueType]::Time
-    #$global:Chart.chartAreas[0].AxisX.LabelStyle.Format = "hh:mm:ss"
-    #$global:Chart.chartAreas[0].AxisX.LabelStyle.Interval = 1
-    #$global:Chart.chartAreas[0].AxisX.LabelStyle.IntervalType = [System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType]::Seconds
-    $global:Chart.Series["Data"].ChartType = [System.Windows.Forms.DataVisualization.Charting.SeriesChartType]::Line
-    #$global:chart.Series["Data"].IsValueShownAsLabel = $false
+#$global:Chart.Series["Data"].XValueType = [System.Windows.Forms.DataVisualization.Charting.ChartValueType]::Time
+#$global:Chart.chartAreas[0].AxisX.LabelStyle.Format = "hh:mm:ss"
+#$global:Chart.chartAreas[0].AxisX.LabelStyle.Interval = 1
+#$global:Chart.chartAreas[0].AxisX.LabelStyle.IntervalType = [System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType]::Seconds
+$global:Chart.Series["Data"].ChartType = [System.Windows.Forms.DataVisualization.Charting.SeriesChartType]::Line
+#$global:chart.Series["Data"].IsValueShownAsLabel = $false
 
 } #New-LineChart
 
@@ -114,83 +114,83 @@ function New-LineChart
 function New-PieChart
 {
 
-    param ([hashtable]$ht,$chartTitle, [int]$width,[int]$height,[int]$left,[int]$top)
+ param ([hashtable]$ht,$chartTitle, [int]$width,[int]$height,[int]$left,[int]$top)
 
-    New-Chart -width $width -height $height -left $left -top $top -chartTile $chartTitle
+New-Chart -width $width -height $height -left $left -top $top -chartTile $chartTitle
 
-    [void]$global:Chart.Series.Add("Data")
-    $global:Chart.Series["Data"].Points.DataBindXY($ht.Keys, $ht.Values)
+[void]$global:Chart.Series.Add("Data")
+$global:Chart.Series["Data"].Points.DataBindXY($ht.Keys, $ht.Values)
 
-    $global:Chart.Series["Data"].ChartType = [System.Windows.Forms.DataVisualization.Charting.SeriesChartType]::Pie
+$global:Chart.Series["Data"].ChartType = [System.Windows.Forms.DataVisualization.Charting.SeriesChartType]::Pie
 
-    $global:Chart.Series["Data"]["PieLabelStyle"] = "Outside"
-    $global:Chart.Series["Data"]["PieLineColor"] = "Black"
-    #$global:chart.Series["Data"].IsValueShownAsLabel = $true
-    #$global:chart.series["Data"].Label =  "#PERCENT{P1}"
-    #$legend = New-object System.Windows.Forms.DataVisualization.Charting.Legend
-    #$global:Chart.Legends.Add($legend)
-    #$Legend.Name = "Default"
+$global:Chart.Series["Data"]["PieLabelStyle"] = "Outside"
+$global:Chart.Series["Data"]["PieLineColor"] = "Black"
+#$global:chart.Series["Data"].IsValueShownAsLabel = $true
+#$global:chart.series["Data"].Label =  "#PERCENT{P1}"
+#$legend = New-object System.Windows.Forms.DataVisualization.Charting.Legend
+#$global:Chart.Legends.Add($legend)
+#$Legend.Name = "Default"
 
 } #New-PieChart
 
 #######################
 function Remove-Points
 {
-    param($name='Data',[int]$maxPoints=200)
+ param($name = 'Data',[int]$maxPoints = 200)
 
-    while ( $global:chart.Series["$name"].Points.Count > $maxPoints )
-    { $global:chart.Series["$name"].Points.RemoveAT(0) }
+while ( $global:chart.Series["$name"].Points.Count > $maxPoints )
+{	$global:chart.Series["$name"].Points.RemoveAT(0) }
 
 } #Add-Series
 
 #######################
 function Out-Form
 {
-    param($interval,$scriptBlock,$xField,$yField)
+ param($interval,$scriptBlock,$xField,$yField)
 
-    # display the chart on a form
-    $global:Chart.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right -bor
-                    [System.Windows.Forms.AnchorStyles]::Top -bor [System.Windows.Forms.AnchorStyles]::Left
-    $Form = New-Object Windows.Forms.Form
-    $Form.Text = 'PowerCharts'
-    $Form.Width = 600
-    $Form.Height = 600
-    $Form.controls.add($global:Chart)
-    if ($scriptBlock -is [ScriptBlock])
-    {
-        if (!($xField -or $yField))
-        { throw 'xField and yField required with scriptBlock parameter.' }
-        $timer = New-Object System.Windows.Forms.Timer
-        $timer.Interval = $interval
-        $timer.add_Tick({
+# display the chart on a form
+$global:Chart.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right -bor
+[System.Windows.Forms.AnchorStyles]::Top -bor [System.Windows.Forms.AnchorStyles]::Left
+$Form = New-Object Windows.Forms.Form
+$Form.Text = 'PowerCharts'
+$Form.Width = 600
+$Form.Height = 600
+$Form.controls.add($global:Chart)
+if ($scriptBlock -is [ScriptBlock])
+{
+	if (!($xField -or $yField))
+	{		throw 'xField and yField required with scriptBlock parameter.' }
+	$timer = New-Object System.Windows.Forms.Timer
+	$timer.Interval = $interval
+	$timer.add_Tick({
 
-        $ht = &$scriptBlock | ConvertTo-HashTable $xField $yField
-        if ($global:Chart.Series["Data"].ChartTypeName -eq 'Line')
-        {
-            Remove-Points
-            $ht | foreach { $global:Chart.Series["Data"].Points.AddXY($($_.Keys), $($_.Values)) }
-        }
-        else
-        { $global:Chart.Series["Data"].Points.DataBindXY($ht.Keys, $ht.Values) }
-        $global:chart.ResetAutoValues()
-        $global:chart.Invalidate()
+			$ht = &$scriptBlock | ConvertTo-HashTable $xField $yField
+			if ($global:Chart.Series["Data"].ChartTypeName -eq 'Line')
+			{
+				Remove-Points
+				$ht | foreach { $global:Chart.Series["Data"].Points.AddXY($($_.Keys), $($_.Values)) }
+			}
+			else
+			{				$global:Chart.Series["Data"].Points.DataBindXY($ht.Keys, $ht.Values) }
+			$global:chart.ResetAutoValues()
+			$global:chart.Invalidate()
 
-        })
-        $timer.Enabled = $true
-        $timer.Start()
+		})
+	$timer.Enabled = $true
+	$timer.Start()
 
-    }
-    $Form.Add_Shown({$Form.Activate()})
-    $Form.ShowDialog()
+}
+$Form.Add_Shown({$Form.Activate()})
+$Form.ShowDialog()
 
 } #Out-Form
 
 #######################
 function Out-ImageFile
 {
-    param($fileName,$fileformat)
+ param($fileName,$fileformat)
 
-    $global:Chart.SaveImage($fileName,$fileformat)
+$global:Chart.SaveImage($fileName,$fileformat)
 }
 #######################
 ### ConvertTo-Hashtable function based on code by Jeffery Snover
@@ -198,72 +198,72 @@ function Out-ImageFile
 #######################
 function ConvertTo-Hashtable
 {
-    param([string]$key, $value)
+ param([string]$key, $value)
 
-    Begin
-    {
-        $hash = @{}
-    }
-    Process
-    {
-        $thisKey = $_.$Key
-        $hash.$thisKey = $_.$Value
-    }
-    End
-    {
-        Write-Output $hash
-    }
+Begin
+{
+	$hash = @{}
+}
+Process
+{
+	$thisKey = $_.$Key
+	$hash.$thisKey = $_.$Value
+}
+End
+{
+	Write-Output $hash
+}
 
 } #ConvertTo-Hashtable
 
 #######################
 function Out-Chart
 {
-    param(  $xField=$(throw 'Out-Chart:xField is required'),
-            $yField=$(throw 'Out-Chart:yField is required'),
-            $chartType='Column',$chartTitle,
-            [int]$width=500,
-            [int]$height=400,
-            [int]$left=40,
-            [int]$top=30,
-            $filename,
-            $fileformat='png',
-            [int]$interval=1000,
-            $scriptBlock,
-            [switch]$asc
-        )
+ param( $xField = $(throw 'Out-Chart:xField is required'),
+	$yField = $(throw 'Out-Chart:yField is required'),
+	$chartType = 'Column',$chartTitle,
+	[int]$width = 500,
+	[int]$height = 400,
+	[int]$left = 40,
+	[int]$top = 30,
+	$filename,
+	$fileformat = 'png',
+	[int]$interval = 1000,
+	$scriptBlock,
+	[switch]$asc
+)
 
-    Begin
-    {
-        $ht = @{}
-    }
-    Process
-    {
-       if ($_)
-       {
-        $thisKey = $_.$xField
-        $ht.$thisKey = $_.$yField
-       }
-    }
-    End
-    {
-        if ($scriptBlock)
-        { $ht = &$scriptBlock | ConvertTo-HashTable $xField $yField }
-        switch ($chartType)
-        {
-            'Bar' {New-BarColumnChart -ht $ht -chartType $chartType -chartTitle $chartTitle -width $width -height $height -left $left -top $top -asc $($asc.IsPresent)}
-            'Column' {New-BarColumnChart -ht $ht -chartType $chartType -chartTitle $chartTitle -width $width -height $height -left $left -top $top -asc $($asc.IsPresent)}
-            'Pie' {New-PieChart -chartType -ht $ht  -chartTitle $chartTitle -width $width -height $height -left $left -top $top }
-            'Line' {New-LineChart -chartType -ht $ht -chartTitle $chartTitle -width $width -height $height -left $left -top $top }
+Begin
+{
+	$ht = @{}
+}
+Process
+{
+	if ($_)
+	{
+		$thisKey = $_.$xField
+		$ht.$thisKey = $_.$yField
+	}
+}
+End
+{
+	if ($scriptBlock)
+	{		$ht = &$scriptBlock | ConvertTo-HashTable $xField $yField }
+	switch ($chartType)
+	{
+		'Bar' {New-BarColumnChart -ht $ht -chartType $chartType -chartTitle $chartTitle -width $width -height $height -left $left -top $top -asc $($asc.IsPresent)}
+		'Column' {New-BarColumnChart -ht $ht -chartType $chartType -chartTitle $chartTitle -width $width -height $height -left $left -top $top -asc $($asc.IsPresent)}
+		'Pie' {New-PieChart -chartType -ht $ht -chartTitle $chartTitle -width $width -height $height -left $left -top $top }
+		'Line' {New-LineChart -chartType -ht $ht -chartTitle $chartTitle -width $width -height $height -left $left -top $top }
 
-        }
+	}
 
-        if ($filename)
-        { Out-ImageFile $filename $fileformat }
-        elseif ($scriptBlock )
-        { Out-Form $interval $scriptBlock $xField $yField }
-        else
-        { Out-Form }
-    }
+	if ($filename)
+	{		Out-ImageFile $filename $fileformat }
+	elseif ($scriptBlock )
+	{		Out-Form $interval $scriptBlock $xField $yField }
+	else
+	{		Out-Form }
+}
 
 } #Out-Chart

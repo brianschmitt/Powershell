@@ -13,17 +13,17 @@ Start-SshAgent -Quiet
 Import-Module (join-path $PSScriptRoot "/posh-tf/posh-tf.psm1")
 
 function Get-PSVersion {
-    Write-Output $PSVersionTable
+	Write-Output $PSVersionTable
 }
 Set-Alias ver Get-PSVersion # Type ver to get version information...
 
 function prompt {
-    $userLocation = $env:username + '@' + [System.Environment]::MachineName
-    Write-Host($userLocation) -NoNewline -ForegroundColor DarkGreen
-    Write-Host(' ' + $pwd) -NoNewline
-    Write-VcsStatus
-    Write-Host('>') -NoNewline
-    return " "
+	$userLocation = $env:username + '@' + [System.Environment]::MachineName
+	Write-Host($userLocation) -NoNewline -ForegroundColor DarkGreen
+	Write-Host(' ' + $pwd) -NoNewline
+	Write-VcsStatus
+	Write-Host('>') -NoNewline
+	return " "
 }
 
 Set-Item "ENV:\GREP_OPTIONS" -value "--color=auto --exclude-dir=.git"
