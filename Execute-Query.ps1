@@ -14,54 +14,58 @@
 ## Tag         : PowerShell, Oracle
 ## Change log  : 1.0 - Initial Version
 ## =====================================================================
-$scriptRoot = Split-Path (Resolve-Path $myInvocation.MyCommand.Path)
-    $serverfile = (join-path $scriptRoot "/servers.txt")
+$scriptRoot = Split-Path (Resolve-Path  -Path $myInvocation.MyCommand.Path)
+$serverfile = (Join-Path  -Path $scriptRoot  -ChildPath '/servers.txt')
 
-    function Execute-Query ($filter, $sqlQuery) {
+function Execute-Query  {
+    param([System.Object]$filter,
+          [System.Object]$sqlQuery)
+    function Execute-OracleQuery {
+        param([System.Object]$connectstring,
+              [System.Object]$Query)
 
-        function Execute-OracleQuery($connectstring, $Query) {
-            $private:tmp = [System.Reflection.Assembly]::LoadWithPartialName("System.Data.OracleClient")
-                $private:ad = New-Object System.Data.OracleClient.OracleDataAdapter($query,$connectstring)
-                $private:dt = New-Object System.Data.DataTable
-                $private:tmp = $ad.Fill($dt)
-                return $dt
-        }
-
-        $databases = @{}
-        Get-Content $serverfile | foreach {
-            if ($_.ToString().Contains($filter)) {
-                $line = $_.split(":")
-                    $databasename = $line[1]
-                    $connectstring = "data source={0};user id={1};password={2};"
-                    $connectstringcomplete = $connectstring -F $line[1], $line[2], $line[3]
-                    $databases.add($databasename,$connectstringcomplete)
-            }
-        }
-
-        function Get-OracleData ($sql) {
-            $result = New-Object System.Data.datatable
-
-                foreach ($conn in $databases.keys)
-                {
-                    $connString = $databases[$conn]
-                        $dt = Execute-OracleQuery $connString $sql
-                        $result += $dt
-                }
-            return $result
-        }
-
-        if (!$sqlQuery) {
-            $sqlQuery = Read-Host "What is the query?"
-        }
-        return Get-OracleData $sqlQuery
+        $private:tmp = [System.Reflection.Assembly]::LoadWithPartialName('System.Data.OracleClient')
+        $private:ad = New-Object  -TypeName System.Data.OracleClient.OracleDataAdapter -ArgumentList ($Query, $connectstring)
+        $private:dt = New-Object  -TypeName System.Data.DataTable
+        $private:tmp = $ad.Fill($dt)
+        return $dt
     }
+
+    $databases = @{}
+    Get-Content $serverfile | ForEach-Object  -Process {
+        if ($_.ToString().Contains($filter)) {
+            $line = $_.split(':')
+            $databasename = $line[1]
+            $connectstring = 'data source={0};user id={1};password={2};'
+            $connectstringcomplete = $connectstring -F $line[1], $line[2], $line[3]
+            $databases.add($databasename,$connectstringcomplete)
+        }
+    }
+
+    function Get-OracleData  {
+        param([System.Object]$sql)
+
+        $result = New-Object  -TypeName System.Data.datatable
+
+        foreach ($conn in $databases.keys)
+        {
+            $connString = $databases[$conn]
+            $dt = Execute-OracleQuery $connString $sql
+            $result += $dt
+        }
+        return $result
+    }
+
+    if (!$sqlQuery) {$sqlQuery = Read-Host  -Prompt 'What is the query?'}
+    return Get-OracleData $sqlQuery
+}
 
 # This utilizes the execute-query function to perform an impact analysis across all databases
 function Get-ImpactAnalysis
 {
-    Param([Parameter(Mandatory=$true, HelpMessage="Enter a database object name")] $dbobjectName)
+    Param([Parameter(Mandatory = $true, HelpMessage = 'Enter a database object name')] $dbobjectName)
 
-        $qry= @"
+    $qry = @"
         select owner impacted_object_owner,
                name impacted_object,
                type impacted_object_type,
@@ -75,9 +79,9 @@ function Get-ImpactAnalysis
                    AND upper(referenced_name) LIKE '{0}'
 "@
 
-                   $fullQuery = $qry -F $dbobjectName.trim().toupper()
-# due to connecting to multiple schemas we will frequently have duplicates
-# after getting results, we need to sort and then filter them out
-                   $sortedresult = Execute-Query "PT" $fullQuery | Sort-Object impacted_object_owner, impacted_object, changed_object_owner, changed_object, changed_object_type  -unique
-                   return $sortedresult
+    $fullQuery = $qry -F $dbobjectName.trim().toupper()
+    # due to connecting to multiple schemas we will frequently have duplicates
+    # after getting results, we need to sort and then filter them out
+    $sortedresult = Execute-Query 'PT' $fullQuery | Sort-Object  -Property impacted_object_owner, impacted_object, changed_object_owner, changed_object, changed_object_type  -Unique
+    return $sortedresult
 }
