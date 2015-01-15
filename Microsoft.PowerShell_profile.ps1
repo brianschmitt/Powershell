@@ -1,3 +1,6 @@
+$Powershellv2 = $PSVersionTable.PSVersion.Major -le 2
+if ($Powershellv2) { $PSScriptRoot = split-path -parent $script:MyInvocation.MyCommand.Path } #v2 hack
+
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/git.ps1') # Helper functions for git
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/azure.ps1') # Helper functions for VM instances
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/vsvars.ps1') # Set environment variables for Visual Studio Command Prompt
@@ -6,7 +9,7 @@
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/apci/apci.ps1') # Helper functions to assist with AP commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/activedirectory.ps1') # Helper functions to assist with AD commands
 
-Import-Module  -Name PSReadline
+if (!$Powershellv2) { Import-Module  -Name PSReadline }
 Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
 Enable-GitColors
 Start-SshAgent -Quiet
@@ -39,5 +42,5 @@ Set-Alias -Name dump -Value Show-Characters
 Set-Alias  -Name wd32  -Value c:\debug\x86\windbg.exe
 Set-Alias  -Name wd64  -Value c:\debug\x64\windbg.exe
 
-Remove-Item  -Path alias:curl
-Remove-Item  -Path alias:wget
+Remove-Item  -Path alias:curl -ErrorAction SilentlyContinue
+Remove-Item  -Path alias:wget -ErrorAction SilentlyContinue
