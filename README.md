@@ -15,7 +15,7 @@
 ```shell
 cd %HOME%
 git clone https://github.com/brianschmitt/powershell
-mklink /d %userprofile%\Documents\WindowsPowerShell %userprofile%\Powershell
+~/powershell/set_symlink.bat
 ```
 
 ### Requirements
