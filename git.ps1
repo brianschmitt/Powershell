@@ -15,9 +15,10 @@ function Get-Origin {
     git.exe -C $folder fetch origin --quiet # *> $nul
 }
 
-function Get-GitFolders() {return Get-ChildItem -Directory -Filter .git -Hidden -Recurse -ErrorAction SilentlyContinue |
-    Select-Object -ExpandProperty parent |
-    Select-Object -ExpandProperty fullname
+function Get-GitFolders() {
+    return Get-ChildItem -Directory -Filter .git -Hidden -Recurse -ErrorAction SilentlyContinue |
+        Select-Object -ExpandProperty parent |
+        Select-Object -ExpandProperty fullname
 }
 
 function Find-Unsynced() {
