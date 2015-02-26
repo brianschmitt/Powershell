@@ -12,7 +12,7 @@ function Start-Azure {
     $azurevm = Get-AzureVM |
         Where-Object  -FilterScript {$_.Name -like $VirtualMachineName + '*'} |
         Select-Object  -Property ServiceName, Name
-    Write-Output  -InputObject Starting $azurevm.Servicename
+    Write-Output  -InputObject "Starting $($azurevm.Servicename)"
     Start-AzureVM -ServiceName $azurevm.servicename -Name $azurevm.name
 }
 
@@ -22,6 +22,6 @@ function Stop-Azure {
     $azurevm = Get-AzureVM |
         Where-Object  -FilterScript {$_.Name -like $VirtualMachineName + '*'} |
         Select-Object  -Property servicename, Name
-    Write-Output  -InputObject Stopping $azurevm.Servicename
+    Write-Output  -InputObject "Stopping $($azurevm.Servicename)"
     Stop-AzureVM -ServiceName $azurevm.servicename -Name $azurevm.name -Force
 }

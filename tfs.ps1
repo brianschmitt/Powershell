@@ -113,7 +113,7 @@ function Review-TFSCode {
 }
 
 function Find-TFSFile {
-    param([System.Object]$filePattern)
+    param([string]$filePattern)
 
     if (!$filePattern) {
         Write-Host  -Object "`r`n Define file pattern! `r`n" -ForegroundColor Red
