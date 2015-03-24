@@ -14,13 +14,21 @@ Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.ps
 Enable-GitColors
 Start-SshAgent -Quiet
 Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-tf/posh-tf.psm1')
+#Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
 
 function Get-PSVersion {
     Write-Output  -InputObject $PSVersionTable
 }
 Set-Alias  -Name ver  -Value Get-PSVersion # Type ver to get version information...
 
+function Execute-GrepFind {
+    param($find, $pattern)
+    grep -RIni "$find" . --include="$pattern"
+}
+Set-Alias -name gf -Value Execute-GrepFind
+
 function prompt {
+    [Console]::ResetColor()
     $userLocation = $env:username + '@' + [System.Environment]::MachineName
     Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
     Write-Host -Object (' ' + $pwd) -NoNewline

@@ -51,12 +51,21 @@ function Get-ChildItemColor {
         $Host.UI.RawUI.ForegroundColor = $fore
     }
 }
-Set-Alias  -Name ll  -Value Get-ChildItemColor -Force -Option allscope
+Set-Alias -Name ll -Value Get-ChildItemColor -Force -Option allscope
+
+function la {
+    Get-ChildItemColor -Force
+}
 
 function Find-Item  {
     param([System.String]$fileName)
 
     $supportsFilter = (Get-Location | Select-Object Provider).Provider.Name -like 'FileSystem'
-    if ($supportsFilter) {Get-ChildItem -Filter $fileName -Recurse -ErrorAction SilentlyContinue} else {Get-ChildItem -Include $fileName -Recurse -ErrorAction SilentlyContinue}
+    if ($supportsFilter) {
+        Get-ChildItem -Filter $fileName -Recurse -ErrorAction SilentlyContinue | select FullName
+    } else {
+        Get-ChildItem -Include $fileName -Recurse -ErrorAction SilentlyContinue | select FullName
+    }
 }
-Set-Alias  -Name fi  -Value Find-Item
+Set-Alias -Name fi -Value Find-Item
+Set-Alias -Name Find -Value Find-Item
