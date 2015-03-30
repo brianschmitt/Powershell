@@ -67,5 +67,5 @@ function Find-Item  {
         Get-ChildItem -Include $fileName -Recurse -ErrorAction SilentlyContinue | select FullName
     }
 }
-Set-Alias -Name fi -Value Find-Item
+Set-Alias -Name ff -Value Find-Item
 Set-Alias -Name Find -Value Find-Item
