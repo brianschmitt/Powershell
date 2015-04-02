@@ -27,3 +27,14 @@ function Find-Unsynced() {
         Write-FolderStatus $_
     }
 }
+
+function Find-Unsynced2() {
+    Get-GitFolders | ForEach-Object  -Process {
+        Push-Location $_
+        pwd
+        git fetch
+        git status -sb
+        Pop-Location
+        Write-Host
+    }
+}
