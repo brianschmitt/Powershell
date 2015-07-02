@@ -1,6 +1,6 @@
-$ver = '11.0' #12.0
+$ver = '12.0' #12.0
 
-if ($ver -eq '11.0') {$sdkVer = '8.0'} else  {$sdkVer = '8.1'}
+if ($ver -eq '11.0') {$sdkVer = '8.0'} elseif ($ver -eq '14.0') {$sdkVer = '10.0'} else {$sdkVer = '8.1'}
 
 $progFiles = (${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0]
 $vsPath = "$progFiles\Microsoft Visual Studio $ver"
@@ -28,7 +28,7 @@ Set-Item -Force -Path 'ENV:\ExtensionSdkDir' -Value "$sdkPath\ExtensionSDKs"
 if ($ver -eq '11.0') {
     Set-Item -Force -Path 'ENV:\Framework35Version' -Value 'v3.5'
     Set-Item -Force -Path 'ENV:\WindowsSdkDir_35' -Value "$progFiles\Microsoft SDKs\Windows\v7.0A\Bin\"
-    Set-Item -Force -Path 'ENV:\WindowsSdkDir_old' -Value "$sdkTools\"  
+    Set-Item -Force -Path 'ENV:\WindowsSdkDir_old' -Value "$sdkTools\"
 } else {
     Set-Item -Force -Path 'ENV:\Framework40Version' -Value 'v4.0'
     Set-Item -Force -Path 'ENV:\WindowsSDK_ExecutablePath_x64' -Value "$sdkToolPathx64\"
@@ -38,7 +38,7 @@ Set-Item -Force -Path 'ENV:\FrameworkDir' -Value 'C:\Windows\Microsoft.NET\Frame
 Set-Item -Force -Path 'ENV:\FrameworkDIR32' -Value 'C:\Windows\Microsoft.NET\Framework\'
 Set-Item -Force -Path 'ENV:\FrameworkVersion' -Value 'v4.0.30319'
 Set-Item -Force -Path 'ENV:\FrameworkVersion32' -Value 'v4.0.30319'
-Set-Item -Force -Path 'ENV:\FSHARPINSTALLDIR' -Value "$fsharpPath" 
+Set-Item -Force -Path 'ENV:\FSHARPINSTALLDIR' -Value "$fsharpPath"
 Set-Item -Force -Path 'ENV:\INCLUDE' -Value "$vsPath\VC\INCLUDE;$vsPath\VC\ATLMFC\INCLUDE;$sdkKitPath\include\shared;$sdkKitPath\include\um;$sdkKitPath\include\winrt;"
 Set-Item -Force -Path 'ENV:\LIB' -Value "$vsPath\VC\LIB;$vsPath\VC\ATLMFC\LIB;$sdkKitPathLib;"
 Set-Item -Force -Path 'ENV:\LIBPATH' -Value "C:\Windows\Microsoft.NET\Framework\v4.0.30319;$vsPath\VC\LIB;$vsPath\VC\ATLMFC\LIB;$sdkKitPath\References\CommonConfiguration\Neutral;$sdkPath\ExtensionSDKs\Microsoft.VCLibs\$ver\References\CommonConfiguration\neutral;$addnlLibPath;"

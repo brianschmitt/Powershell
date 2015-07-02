@@ -1,5 +1,5 @@
-$Powershellv2 = $PSVersionTable.PSVersion.Major -le 2
-if ($Powershellv2) { $PSScriptRoot = split-path -parent $script:MyInvocation.MyCommand.Path } #v2 hack
+#$Powershellv2 = $PSVersionTable.PSVersion.Major -le 2
+#if ($Powershellv2) { $PSScriptRoot = split-path -parent $script:MyInvocation.MyCommand.Path } #v2 hack
 
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/git.ps1') # Helper functions for git
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/azure.ps1') # Helper functions for VM instances
@@ -9,11 +9,11 @@ if ($Powershellv2) { $PSScriptRoot = split-path -parent $script:MyInvocation.MyC
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/apci/apci.ps1') # Helper functions to assist with AP commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/activedirectory.ps1') # Helper functions to assist with AD commands
 
-if (!$Powershellv2) { Import-Module  -Name PSReadline }
+Import-Module  -Name PSReadline
 Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
 Enable-GitColors
 Start-SshAgent -Quiet
-Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-tf/posh-tf.psm1')
+#Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-tf/posh-tf.psm1')
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
 
 function Get-PSVersion {
