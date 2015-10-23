@@ -1,6 +1,6 @@
 [submodule "posh-git"]
-	path = posh-git
-	url = https://github.com/brianschmitt/posh-git
+    path = posh-git
+    url = https://github.com/brianschmitt/posh-git
 [submodule "posh-tf"]
-	path = posh-tf
-	url = https://github.com/brianschmitt/posh-tf
+    path = posh-tf
+    url = https://github.com/brianschmitt/posh-tf

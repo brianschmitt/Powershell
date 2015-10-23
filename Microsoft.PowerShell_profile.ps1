@@ -11,7 +11,6 @@
 
 Import-Module  -Name PSReadline
 Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
-Enable-GitColors
 Start-SshAgent -Quiet
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-tf/posh-tf.psm1')
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
@@ -29,9 +28,9 @@ Set-Alias -name gf -Value Execute-GrepFind
 
 function prompt {
     [Console]::ResetColor()
-    $userLocation = $env:username + '@' + [System.Environment]::MachineName
-    Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
-    Write-Host -Object (' ' + $pwd) -NoNewline
+    $userLocation = $env:username + '@' + [System.Environment]::MachineName + ' '
+    #Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
+    Write-Host -Object ($pwd) -NoNewline
     Write-VcsStatus
     Write-Host -Object ('>') -NoNewline
     return ' '
@@ -42,7 +41,7 @@ Set-Item  -Path 'ENV:\GREP_OPTIONS' -Value '--color=auto --exclude-dir=.git'
 function Show-Characters  {
     param([System.Object]$string)
     $string.ToCharArray() | ForEach-Object  -Process {
-        '{0} - {1:X2}' -f $_, [System.Convert]::ToUInt32($_) 
+        '{0} - {1:X2}' -f $_, [System.Convert]::ToUInt32($_)
     }
 }
 Set-Alias -Name dump -Value Show-Characters
@@ -52,3 +51,12 @@ Set-Alias  -Name wd64  -Value c:\debug\x64\windbg.exe
 
 Remove-Item  -Path alias:curl -ErrorAction SilentlyContinue
 Remove-Item  -Path alias:wget -ErrorAction SilentlyContinue
+
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitdemo.ps1')
+
+function Print-Function {
+    param($funcname)
+    (Get-Command $funcname).Definition
+}
+Set-Alias -Name pf -Value Print-Function
+

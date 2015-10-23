@@ -21,14 +21,14 @@ function Get-GitFolders() {
         Select-Object -ExpandProperty fullname
 }
 
-function Find-Unsynced() {
-    Get-GitFolders | ForEach-Object  -Process {
-        Get-Origin $_
-        Write-FolderStatus $_
-    }
-}
+#function Find-Unsynced() {
+#    Get-GitFolders | ForEach-Object  -Process {
+#        Get-Origin $_
+#        Write-FolderStatus $_
+#    }
+#}
 
-function Find-Unsynced2() {
+function Find-Unsynced() {
     Get-GitFolders | ForEach-Object  -Process {
         Push-Location $_
         pwd
