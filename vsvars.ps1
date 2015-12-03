@@ -1,4 +1,4 @@
-$ver = '12.0' #12.0
+$ver = '14.0' #12.0
 
 if ($ver -eq '11.0') {$sdkVer = '8.0'} elseif ($ver -eq '14.0') {$sdkVer = '10.0'} else {$sdkVer = '8.1'}
 
@@ -40,7 +40,7 @@ Set-Item -Force -Path 'ENV:\FrameworkVersion' -Value 'v4.0.30319'
 Set-Item -Force -Path 'ENV:\FrameworkVersion32' -Value 'v4.0.30319'
 Set-Item -Force -Path 'ENV:\FSHARPINSTALLDIR' -Value "$fsharpPath"
 Set-Item -Force -Path 'ENV:\INCLUDE' -Value "$vsPath\VC\INCLUDE;$vsPath\VC\ATLMFC\INCLUDE;$sdkKitPath\include\shared;$sdkKitPath\include\um;$sdkKitPath\include\winrt;"
-Set-Item -Force -Path 'ENV:\LIB' -Value "$vsPath\VC\LIB;$vsPath\VC\ATLMFC\LIB;$sdkKitPathLib;"
+#Set-Item -Force -Path 'ENV:\LIB' -Value "$vsPath\VC\LIB;$vsPath\VC\ATLMFC\LIB;$sdkKitPathLib;"
 Set-Item -Force -Path 'ENV:\LIBPATH' -Value "C:\Windows\Microsoft.NET\Framework\v4.0.30319;$vsPath\VC\LIB;$vsPath\VC\ATLMFC\LIB;$sdkKitPath\References\CommonConfiguration\Neutral;$sdkPath\ExtensionSDKs\Microsoft.VCLibs\$ver\References\CommonConfiguration\neutral;$addnlLibPath;"
 Set-Item -Force -Path 'ENV:\VCINSTALLDIR' -Value "$vsPath\VC\"
 Set-Item -Force -Path 'ENV:\VisualStudioVersion' -Value "$ver"
