@@ -4,7 +4,7 @@
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/git.ps1') # Helper functions for git
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/azure.ps1') # Helper functions for VM instances
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/vsvars.ps1') # Set environment variables for Visual Studio Command Prompt
-#. (Join-Path  -Path $PSScriptRoot  -ChildPath '/tfs.ps1') # Helper functions for TFS
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/tfs.ps1') # Helper functions for TFS
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/apci/apci.ps1') # Helper functions to assist with AP commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/activedirectory.ps1') # Helper functions to assist with AD commands
