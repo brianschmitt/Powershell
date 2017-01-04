@@ -10,8 +10,8 @@
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/activedirectory.ps1') # Helper functions to assist with AD commands
 
 Import-Module  -Name PSReadline
-Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
-Start-SshAgent -Quiet
+#Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
+#Start-SshAgent -Quiet
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-tf/posh-tf.psm1')
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
 
@@ -31,7 +31,7 @@ function prompt {
     $userLocation = $env:username + '@' + [System.Environment]::MachineName + ' '
     #Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
     Write-Host -Object ($pwd) -NoNewline
-    Write-VcsStatus
+    #Write-VcsStatus
     Write-Host -Object ('>') -NoNewline
     return ' '
 }
@@ -58,3 +58,21 @@ function Print-Function {
 }
 Set-Alias -Name pf -Value Print-Function
 
+# Reconnect PSDrives for network connections when running with elevated privileges
+function Map-Drives() {
+    net use X: "\\mac\Google Drive" /persistent:yes
+    net use Y: "\\mac\projects" /persistent:yes
+    net use Z: "\\mac\home" /persistent:yes
+}
+
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
+
+$elevated = (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+if( $elevated ) { }
+
+cd ~

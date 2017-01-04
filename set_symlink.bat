@@ -1,1 +1,2 @@
-mklink /j %userprofile%\Documents\WindowsPowerShell %userprofile%\Powershell
+mklink /j %userprofile%\Powershell
+ %userprofile%\Documents\WindowsPowerShell 
