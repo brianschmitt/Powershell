@@ -13,7 +13,7 @@ function Import-TFSPowershell() {
 }
 
 # Configuration
-$project_folder = 'Z:\'
+$project_folder = 'F:\projects'
 $me = 'Schmitt, Brian'
 
 function Push-ProjectFolder {

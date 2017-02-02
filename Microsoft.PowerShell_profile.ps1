@@ -9,10 +9,10 @@
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/apci/apci.ps1') # Helper functions to assist with AP commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/activedirectory.ps1') # Helper functions to assist with AD commands
 
-Import-Module  -Name PSReadline
+Import-Module -Name PSReadline
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
 #Start-SshAgent -Quiet
-#Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-tf/posh-tf.psm1')
+Import-Module -Name posh-git
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
 
 function Get-PSVersion {
@@ -29,9 +29,9 @@ Set-Alias -name gf -Value Execute-GrepFind
 function prompt {
     [Console]::ResetColor()
     $userLocation = $env:username + '@' + [System.Environment]::MachineName + ' '
-    #Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
+    Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
     Write-Host -Object ($pwd) -NoNewline
-    #Write-VcsStatus
+    Write-VcsStatus
     Write-Host -Object ('>') -NoNewline
     return ' '
 }
