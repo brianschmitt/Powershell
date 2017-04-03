@@ -38,3 +38,9 @@ function Find-Unsynced() {
         Write-Host
     }
 }
+
+function Delete-MergedBranches ($Commit = 'HEAD', [switch]$Force) {
+    git branch --merged $Commit |
+        ? { $_ -notmatch '(^\*)|(^. master$)' } |
+        % { git branch $(if($Force) { '-D' } else { "-d" }) $_.Substring(2) }
+}

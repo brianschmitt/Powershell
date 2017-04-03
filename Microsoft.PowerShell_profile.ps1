@@ -1,4 +1,4 @@
-#$Powershellv2 = $PSVersionTable.PSVersion.Major -le 2
+﻿#$Powershellv2 = $PSVersionTable.PSVersion.Major -le 2
 #if ($Powershellv2) { $PSScriptRoot = split-path -parent $script:MyInvocation.MyCommand.Path } #v2 hack
 
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/git.ps1') # Helper functions for git
@@ -14,6 +14,7 @@ Import-Module -Name PSReadline
 #Start-SshAgent -Quiet
 Import-Module -Name posh-git
 #Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 
 function Get-PSVersion {
     Write-Output  -InputObject $PSVersionTable
@@ -26,10 +27,14 @@ function Execute-GrepFind {
 }
 Set-Alias -name gf -Value Execute-GrepFind
 
+#https://github.com/dahlbyk/posh-git/issues/344
+# Background colors
+
+
 function prompt {
     [Console]::ResetColor()
-    $userLocation = $env:username + '@' + [System.Environment]::MachineName + ' '
-    Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
+    #$userLocation = $env:username + '@' + [System.Environment]::MachineName + ' '
+    #Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
     Write-Host -Object ($pwd) -NoNewline
     Write-VcsStatus
     Write-Host -Object ('>') -NoNewline
