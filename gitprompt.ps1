@@ -1,33 +1,45 @@
-﻿$GitPromptSettings.AfterBackgroundColor = "DarkBlue"
-$GitPromptSettings.AfterStashBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BeforeBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BeforeIndexBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BeforeStashBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BranchAheadStatusBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BranchBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BranchBehindAndAheadStatusBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BranchBehindStatusBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.BranchIdenticalStatusToBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.DelimBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.IndexBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.LocalDefaultStatusBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.LocalStagedStatusBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.LocalWorkingStatusBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.StashBackgroundColor = $GitPromptSettings.AfterBackgroundColor
-$GitPromptSettings.WorkingBackgroundColor = $GitPromptSettings.AfterBackgroundColor
+﻿# Background colors
+$baseBackgroundColor = "DarkBlue"
+$GitPromptSettings.AfterBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.AfterStashBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BeforeBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BeforeIndexBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BeforeStashBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BranchAheadStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BranchBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BranchBehindAndAheadStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BranchBehindStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BranchGoneStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.BranchIdenticalStatusToBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.DelimBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.IndexBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.ErrorBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.LocalDefaultStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.LocalStagedStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.LocalWorkingStatusBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.StashBackgroundColor = $baseBackgroundColor
+$GitPromptSettings.WorkingBackgroundColor = $baseBackgroundColor
 
 # Foreground colors
+$GitPromptSettings.AfterForegroundColor = "Blue"
+$GitPromptSettings.BeforeForegroundColor = "Blue"
 $GitPromptSettings.BranchForegroundColor = "Blue"
+$GitPromptSettings.BranchGoneStatusForegroundColor = "Blue"
 $GitPromptSettings.BranchIdenticalStatusToForegroundColor = "White"
+$GitPromptSettings.DefaultForegroundColor = "Gray"
 $GitPromptSettings.DelimForegroundColor = "Blue"
 $GitPromptSettings.IndexForegroundColor = "Green"
 $GitPromptSettings.WorkingForegroundColor = "Yellow"
 
 # Prompt shape
 $GitPromptSettings.AfterText = " "
-$GitPromptSettings.BeforeText = " "
-$GitPromptSettings.BranchIdenticalStatusToSymbol = "≡"
+$GitPromptSettings.BeforeText = "  "
+$GitPromptSettings.BranchAheadStatusSymbol = ""
+$GitPromptSettings.BranchBehindStatusSymbol = ""
+$GitPromptSettings.BranchBehindAndAheadStatusSymbol = ""
+$GitPromptSettings.BranchGoneStatusSymbol = ""
+$GitPromptSettings.BranchIdenticalStatusToSymbol = ""
 $GitPromptSettings.DelimText = " ॥"
-$GitPromptSettings.LocalStagedStatusSymbol = "~"
-$GitPromptSettings.LocalWorkingStatusSymbol = "!"
+$GitPromptSettings.LocalStagedStatusSymbol = ""
+$GitPromptSettings.LocalWorkingStatusSymbol = ""
 $GitPromptSettings.ShowStatusWhenZero = $false

@@ -1,19 +1,13 @@
-﻿#$Powershellv2 = $PSVersionTable.PSVersion.Major -le 2
-#if ($Powershellv2) { $PSScriptRoot = split-path -parent $script:MyInvocation.MyCommand.Path } #v2 hack
-
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/git.ps1') # Helper functions for git
+﻿. (Join-Path  -Path $PSScriptRoot  -ChildPath '/git.ps1') # Helper functions for git
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/azure.ps1') # Helper functions for VM instances
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/vsvars.ps1') # Set environment variables for Visual Studio Command Prompt
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/vs2017.ps1') # Set environment variables for Visual Studio Command Prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/tfs.ps1') # Helper functions for TFS
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/apci/apci.ps1') # Helper functions to assist with AP commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/activedirectory.ps1') # Helper functions to assist with AD commands
 
 Import-Module -Name PSReadline
-#Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-git/posh-git.psm1')
-#Start-SshAgent -Quiet
 Import-Module -Name posh-git
-#Import-Module (Join-Path  -Path $PSScriptRoot  -ChildPath '/posh-svn/posh-svn.psm1')
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 
 function Get-PSVersion {
@@ -32,13 +26,46 @@ Set-Alias -name gf -Value Execute-GrepFind
 
 
 function prompt {
-    [Console]::ResetColor()
-    #$userLocation = $env:username + '@' + [System.Environment]::MachineName + ' '
-    #Write-Host -Object ($userLocation) -NoNewline -ForegroundColor DarkGreen
-    Write-Host -Object ($pwd) -NoNewline
-    Write-VcsStatus
-    Write-Host -Object ('>') -NoNewline
-    return ' '
+    $title = (get-location).Path.replace($home, "~")
+    $idx = $title.IndexOf("::")
+    if ($idx -gt -1) { $title = $title.Substring($idx + 2) }
+  
+    $windowsIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+    $windowsPrincipal = new-object 'System.Security.Principal.WindowsPrincipal' $windowsIdentity
+    if ($windowsPrincipal.IsInRole("Administrators") -eq 1) { $color = "Red"; }
+    else { $color = "Green"; }
+  
+    $Host.UI.RawUI.ForegroundColor = $GitPromptSettings.DefaultForegroundColor
+  
+    if ($LASTEXITCODE -ne 0) {
+        write-host " " -NoNewLine
+        write-host "  $LASTEXITCODE " -NoNewLine -BackgroundColor DarkRed -ForegroundColor Yellow
+    }
+  
+    if ($PromptEnvironment -ne $null) {
+        write-host " " -NoNewLine
+        write-host $PromptEnvironment -NoNewLine -BackgroundColor DarkMagenta -ForegroundColor White
+    }
+  
+    $global:LASTEXITCODE = 0
+  
+    if ((get-location -stack).Count -gt 0) {
+      write-host " " -NoNewLine
+      write-host (("+" * ((get-location -stack).Count))) -NoNewLine -ForegroundColor Cyan
+    }
+  
+    write-host " " -NoNewLine
+    write-host "$pwd" -NoNewLine -ForegroundColor $color
+
+    if (Get-GitStatus -ne $null) {
+        write-host " " -NoNewLine
+        Write-VcsStatus
+    }
+
+    Write-Host ">" -NoNewline -ForegroundColor $color
+  
+    $host.UI.RawUI.WindowTitle = $title
+    return " "
 }
 
 Set-Item  -Path 'ENV:\GREP_OPTIONS' -Value '--color=auto --exclude-dir=.git'
