@@ -22,7 +22,7 @@ $GitPromptSettings.WorkingBackgroundColor = $baseBackgroundColor
 
 # Foreground colors
 $GitPromptSettings.AfterForegroundColor = "Blue"
-$GitPromptSettings.BeforeForegroundColor = "Blue"
+$GitPromptSettings.BeforeForegroundColor = "White"
 $GitPromptSettings.BranchForegroundColor = "Blue"
 $GitPromptSettings.BranchGoneStatusForegroundColor = "Blue"
 $GitPromptSettings.BranchIdenticalStatusToForegroundColor = "White"

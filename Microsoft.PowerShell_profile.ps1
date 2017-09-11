@@ -15,17 +15,12 @@ function Get-PSVersion {
 }
 Set-Alias  -Name ver  -Value Get-PSVersion # Type ver to get version information...
 
-function Execute-GrepFind {
-    param($find, $pattern)
-    grep -RIni "$find" . --include="$pattern"
-}
-Set-Alias -name gf -Value Execute-GrepFind
-
 #https://github.com/dahlbyk/posh-git/issues/344
 # Background colors
 
 
 function prompt {
+    [Console]::ResetColor()
     $title = (get-location).Path.replace($home, "~")
     $idx = $title.IndexOf("::")
     if ($idx -gt -1) { $title = $title.Substring($idx + 2) }
