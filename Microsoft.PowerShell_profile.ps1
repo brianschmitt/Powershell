@@ -18,8 +18,8 @@ Set-Alias  -Name ver  -Value Get-PSVersion # Type ver to get version information
 #https://github.com/dahlbyk/posh-git/issues/344
 # Background colors
 
-
-function prompt {
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/prompt.ps1')
+<# function prompt {
     [Console]::ResetColor()
     $title = (get-location).Path.replace($home, "~")
     $idx = $title.IndexOf("::")
@@ -45,8 +45,8 @@ function prompt {
     $global:LASTEXITCODE = 0
   
     if ((get-location -stack).Count -gt 0) {
-      write-host " " -NoNewLine
-      write-host (("+" * ((get-location -stack).Count))) -NoNewLine -ForegroundColor Cyan
+        write-host " " -NoNewLine
+        write-host (("+" * ((get-location -stack).Count))) -NoNewLine -ForegroundColor Cyan
     }
   
     write-host " " -NoNewLine
@@ -61,11 +61,11 @@ function prompt {
   
     $host.UI.RawUI.WindowTitle = $title
     return " "
-}
+} #>
 
 Set-Item  -Path 'ENV:\GREP_OPTIONS' -Value '--color=auto --exclude-dir=.git'
 
-function Show-Characters  {
+function Show-Characters {
     param([System.Object]$string)
     $string.ToCharArray() | ForEach-Object  -Process {
         '{0} - {1:X2}' -f $_, [System.Convert]::ToUInt32($_)
@@ -96,10 +96,10 @@ function Map-Drives() {
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
+    Import-Module "$ChocolateyProfile"
 }
 
 $elevated = (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-if( $elevated ) { }
+if ( $elevated ) { }
 
-cd ~
+Set-Location ~
