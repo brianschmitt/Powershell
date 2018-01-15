@@ -1,12 +1,3 @@
-# Useful when you need to change a directory from c:\test1\subdir to c:\test2\subdir
-# while in c:\test1\subdir simply call "ccd test2"
-function Switch-Directory  {
-    param([System.String]$oldDir,
-          [System.String]$newDir)
-    Set-Location  -Path (Get-Location).ToString().Replace($oldDir, $newDir)
-}
-Set-Alias  -Name ccd  -Value Switch-Directory
-
 function Get-ChildItemColor {
     <#
         .Synopsis

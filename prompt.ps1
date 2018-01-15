@@ -93,7 +93,7 @@ function prompt {
         $global:LASTEXITCODE = 0
         
         if ((get-location -stack).Count -gt 0) {
-            Write-Segment (("+" * ((get-location -stack).Count))) $defaultBackground $location
+            Write-Segment (("+" * ((get-location -stack).Count))) DarkGray $location
         }
     }
 
