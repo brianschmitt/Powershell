@@ -31,11 +31,10 @@ function Show-Characters {
 }
 Set-Alias -Name dump -Value Show-Characters
 
-function Print-Function {
+function Get-FunctionBody {
     param($funcname)
     (Get-Command $funcname).Definition
 }
-Set-Alias -Name pf -Value Print-Function
 
 function Get-PSVersion {
     Write-Output  -InputObject $PSVersionTable
