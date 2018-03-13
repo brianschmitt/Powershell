@@ -13,7 +13,7 @@ $usePoshGit = [bool](Get-Module posh-git)
 
 function prompt {
     [Console]::ResetColor()
-    $Host.UI.RawUI.ForegroundColor = $GitPromptSettings.DefaultForegroundColor 
+    $Host.UI.RawUI.ForegroundColor = $GitPromptSettings.DefaultForegroundColor
 
     function Write-Title() {
         $title = (get-location).Path.replace($home, "~")
@@ -22,19 +22,18 @@ function prompt {
         $host.UI.RawUI.WindowTitle = $title
     }
 
-    
     function Write-Segment() {
         param($value, $back = $defaultBackground, $fore = $defaultFore)
 
-        if ($global:lastColor -eq "")
-        {
-            $global:lastColor = $back 
+        if ($global:lastColor -eq "") {
+            $global:lastColor = $back
         }
         Write-Host "" -NoNewline -BackgroundColor $back -ForegroundColor $global:lastColor
 
         if ($back -ne $null) {
-            Write-Host "$value" -NoNewLine -ForegroundColor $fore -BackgroundColor $back 
-        } else {
+            Write-Host "$value" -NoNewLine -ForegroundColor $fore -BackgroundColor $back
+        }
+        else {
             Write-Host "$value" -NoNewLine -ForegroundColor $fore
         }
 
@@ -56,7 +55,8 @@ function prompt {
                 Write-VcsStatus
                 $global:lastColor = $GitPromptSettings.AfterBackgroundColor
             }
-        } else {
+        }
+        else {
             $exitCode = $global:LASTEXITCODE
             $inGitRepo = (git rev-parse --is-inside-work-tree)
             $global:LASTEXITCODE = $exitCode
@@ -64,13 +64,12 @@ function prompt {
                 $status = git status --porcelain --ignore-submodules
                 $dirty = $status.Length -ne 0
                 $branch = git rev-parse --abbrev-ref HEAD
-                if ($dirty)
-                {    
+                if ($dirty) {    
                     $back = "DarkRed"
-                } else { 
+                }
+                else { 
                     $back = "DarkBlue"
                 }
-            
                 Write-Segment " $branch " $back
             }
         }
@@ -83,15 +82,14 @@ function prompt {
     function Write-SystemStatus() {
         if ($LASTEXITCODE -ne 0) {
             Write-Segment "  $LASTEXITCODE " $errorBack $errorFore
-            
         }
-      
+
         if ($PromptEnvironment -ne $null) {
             Write-Segment $PromptEnvironment DarkMagenta
         }
 
         $global:LASTEXITCODE = 0
-        
+
         if ((get-location -stack).Count -gt 0) {
             Write-Segment (("+" * ((get-location -stack).Count))) DarkGray $location
         }
@@ -107,7 +105,7 @@ function prompt {
     Write-Location
     Write-GitStatus
     Write-End
-   
+
     $global:lastColor = ""
 
     return " "
