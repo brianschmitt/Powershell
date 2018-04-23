@@ -24,7 +24,7 @@ if (Test-Path($ChocolateyProfile)) {
 Set-Location ~
 
 function Show-Characters {
-    param([System.Object]$string)
+    param([System.String]$string)
     $string.ToCharArray() | ForEach-Object  -Process {
         '{0} - {1:X2}' -f $_, [System.Convert]::ToUInt32($_)
     }
@@ -40,3 +40,21 @@ function Get-PSVersion {
     Write-Output  -InputObject $PSVersionTable
 }
 Set-Alias  -Name ver  -Value Get-PSVersion # Type ver to get version information...
+
+function Show-ModuleUpdates {
+    Get-Module -ListAvailable |
+        Where-Object ModuleBase -like $env:ProgramFiles\WindowsPowerShell\Modules\* |
+        Sort-Object -Property Name, Version -Descending |
+        Get-Unique -PipelineVariable Module |
+        ForEach-Object {
+        if (-not(Test-Path -Path "$($_.ModuleBase)\PSGetModuleInfo.xml")) {
+            Find-Module -Name $_.Name -OutVariable Repo -ErrorAction SilentlyContinue |
+                Compare-Object -ReferenceObject $_ -Property Name, Version |
+                Where-Object SideIndicator -eq '=>' |
+                Select-Object -Property Name,
+            Version,
+            @{label = 'Repository'; expression = {$Repo.Repository}},
+            @{label = 'InstalledVersion'; expression = {$Module.Version}}
+        }
+    }
+}

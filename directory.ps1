@@ -53,11 +53,16 @@ function Find-Item {
 
     $supportsFilter = (Get-Location | Select-Object Provider).Provider.Name -like 'FileSystem'
     if ($supportsFilter) {
-        Get-ChildItem -Filter $fileName -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+        Get-ChildItem -Filter -Directory $fileName -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
     }
     else {
         Get-ChildItem -Include $fileName -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
     }
 }
+function Find-GitFolders {
+    Get-ChildItem -Directory -Hidden -Recurse | Where-Object {$_.BaseName -eq ".git"} | Select-Object fullname
+}
+
 Set-Alias -Name ff -Value Find-Item
-Set-Alias -Name Find -Value Find-Item
+# hack for my git alias
+Set-Alias -Name Find -Value Find-GitFolders
