@@ -10,7 +10,7 @@ Import-Module -Name vsteam
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/prompt.ps1')
 
-Set-Item  -Path 'ENV:\GREP_OPTIONS' -Value '--color=auto --exclude-dir=.git'
+#Set-Item  -Path 'ENV:\GREP_OPTIONS' -Value '--color=auto --exclude-dir=.git'
 
 Remove-Item  -Path alias:curl -ErrorAction SilentlyContinue
 Remove-Item  -Path alias:wget -ErrorAction SilentlyContinue
