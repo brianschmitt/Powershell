@@ -23,6 +23,9 @@ if (Test-Path($ChocolateyProfile)) {
 
 Set-Location ~
 
+Set-PSReadlineOption -BellStyle None
+Set-PSReadlineOption -EditMode Emacs
+
 function Show-Characters {
     param([System.String]$string)
     $string.ToCharArray() | ForEach-Object  -Process {
