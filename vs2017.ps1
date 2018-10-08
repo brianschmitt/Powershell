@@ -3,7 +3,7 @@
     [switch]$noWeb = $false
 )
   
-if ($PromptEnvironment -ne $null) {
+if ($null -ne $PromptEnvironment) {
     write-host "error: Prompt is already in a custom environment." -ForegroundColor Red
     exit 1
 }
@@ -47,7 +47,7 @@ $tempFile = [IO.Path]::GetTempFileName()
   
 cmd /c " `"$cmdPath`" && set > `"$tempFile`" "
   
-Get-Content $tempFile | % {
+Get-Content $tempFile | ForEach-Object {
     if ($_ -match "^(.*?)=(.*)$") {
         Set-Content "env:\$($matches[1])" $matches[2]
     }

@@ -30,7 +30,7 @@ function prompt {
         }
         Write-Host "" -NoNewline -BackgroundColor $back -ForegroundColor $global:lastColor
 
-        if ($back -ne $null) {
+        if ($null -ne $back) {
             Write-Host "$value" -NoNewLine -ForegroundColor $fore -BackgroundColor $back
         }
         else {
@@ -45,7 +45,8 @@ function prompt {
         $windowsPrincipal = new-object 'System.Security.Principal.WindowsPrincipal' $windowsIdentity
         if ($windowsPrincipal.IsInRole("Administrators") -eq 1) { $color = $adminColor; }
         else { $color = $nonAdminColor; }
-        Write-Segment $env:UserName@$env:computername $color Black
+        #Write-Segment $env:UserName@$env:computername $color Black
+        Write-Segment $env:UserName $color Black
     }
 
     function Write-GitStatus() {
@@ -79,12 +80,17 @@ function prompt {
         Write-Segment " $pwd " $location $locationFore
     }
 
+    function Write-OpenPullRequests() {
+        $count = (Get-VSTeamPullRequest | Where-Object {$_.reviewstatus -eq 'Pending'}).Count
+        Write-Segment "  $count " $errorFore $locationFore
+    }
+
     function Write-SystemStatus() {
         if ($LASTEXITCODE -ne 0) {
             Write-Segment "  $LASTEXITCODE " $errorBack $errorFore
         }
 
-        if ($PromptEnvironment -ne $null) {
+        if ($null -ne $PromptEnvironment) {
             Write-Segment $PromptEnvironment DarkMagenta
         }
 
@@ -103,6 +109,7 @@ function prompt {
     Write-User
     Write-SystemStatus
     Write-Location
+    Write-OpenPullRequests
     Write-GitStatus
     Write-End
 

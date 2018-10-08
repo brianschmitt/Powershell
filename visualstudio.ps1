@@ -25,7 +25,7 @@ function Format-AllDocuments {
     }
 }
 
-function Recurse-Project {
+function Set-Project {
     param(
         [parameter(ValueFromPipelineByPropertyName = $true)]
         [string[]]$ProjectName,
@@ -54,7 +54,7 @@ function Recurse-Project {
         }
 
         # Walk over all project items running the action on each
-        function Recurse-ProjectItems($projectItems, $Action) {
+        function Set-ProjectItems($projectItems, $Action) {
             $projectItems | ForEach-Object -Process {
                 $obj = New-Object  -TypeName PSObject -Property @{
                     ProjectItem = $_
@@ -65,32 +65,34 @@ function Recurse-Project {
 
                 & $Action $obj
 
-                if ($_.ProjectItems) {Recurse-ProjectItems $_.ProjectItems $Action}
+                if ($_.ProjectItems) {Set-ProjectItems $_.ProjectItems $Action}
             }
         }
 
         if ($ProjectName) {$p = Get-Project $ProjectName}
         else {$p = Get-Project -All}
 
-        $p | ForEach-Object -Process { Recurse-ProjectItems $_.ProjectItems $Action }
+        $p | ForEach-Object -Process { Set-ProjectItems $_.ProjectItems $Action }
     }
 }
 
 # Statement completion for project names
-Register-TabExpansion 'Recurse-Project' @{
+Register-TabExpansion '$Set-Project' @{
     ProjectName = { Get-Project -All | Select-Object -ExpandProperty Name }
 }
 
 # WIP translating a macro...
-function Remove-Regions() {
-    $regex = [regex] '^.*\#(end)*(?([^\r\n])\s)*region.*\n'
+function Remove-Regions {
     param(
         [parameter(ValueFromPipelineByPropertyName = $true)]
         [string[]]$ProjectName
     )
-    Process {
+
+    process {
+        # $regex = [regex] '^.*\#(end)*(?([^\r\n])\s)*region.*\n'
+
         $ProjectName | ForEach-Object -Process {
-            Recurse-Project -ProjectName $_ -Action {
+            Set-Project -ProjectName $_ -Action {
                 param($item)
                 if ($item.Type -eq 'Folder' -or !$item.Language) {return}
 
