@@ -1,1 +1,1 @@
-. ./Microsoft.Powershell_profile.ps1
+. ~/powershell/Microsoft.Powershell_profile.ps1
