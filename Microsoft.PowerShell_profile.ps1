@@ -1,11 +1,11 @@
-﻿. (Join-Path  -Path $PSScriptRoot  -ChildPath '/vs2017.ps1') # Set environment variables for Visual Studio Command Prompt
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/work/apci.ps1') # Helper functions to assist with AP commands
-
-Import-Module -Name PSReadline
+﻿Import-Module -Name PSReadline
 Import-Module -Name posh-git
 Import-Module -Name SHiPS
 Import-Module -Name vsteam
+
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/vs2017.ps1') # Set environment variables for Visual Studio Command Prompt
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/work/apci.ps1') # Helper functions to assist with AP commands
 
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/prompt.ps1')

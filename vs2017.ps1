@@ -43,17 +43,19 @@ if ((test-path $cmdPath) -eq $false) {
     exit 1
 }
   
-$tempFile = [IO.Path]::GetTempFileName()
-  
-cmd /c " `"$cmdPath`" && set > `"$tempFile`" "
-  
+$tempFile = "$env:TEMP\vars" #[IO.Path]::GetTempFileName()
+
+if ((test-path $tempFile) -eq $false -or (Get-Item $tempFile).LastWriteTime -lt (Get-Date).AddDays(-7)) {
+    cmd /c " `"$cmdPath`" && set > `"$tempFile`" "
+}
+
 Get-Content $tempFile | ForEach-Object {
     if ($_ -match "^(.*?)=(.*)$") {
         Set-Content "env:\$($matches[1])" $matches[2]
     }
 }
   
-Remove-Item $tempFile
+#Remove-Item $tempFile
   
 if ($noWeb -eq $false) {
     $path = join-path (join-path (join-path $basePath $edition) "Web") "External"
