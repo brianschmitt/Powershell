@@ -26,7 +26,7 @@ if ($edition -eq "") {
         write-warning "Multiple editions of Visual Studio 2017 are installed. Please specify one of the editions ($($editions -join ', ')) with the -edition switch."
         exit 1
     }
-    $edition = $editions[0]
+    $edition = $editions[0].Name
 }
   
 $path = join-path (join-path (join-path $basePath $edition) "Common7") "Tools"

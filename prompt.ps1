@@ -10,6 +10,7 @@ $errorFore = "Yellow"
 $errorBack = "DarkRed"
 
 $usePoshGit = [bool](Get-Module posh-git)
+$useVSTeam = [bool](Get-Module vsteam)
 
 function prompt {
     [Console]::ResetColor()
@@ -81,8 +82,10 @@ function prompt {
     }
 
     function Write-OpenPullRequests() {
-        $count = (Get-VSTeamPullRequest | Where-Object {$_.reviewstatus -eq 'Pending'}).Count
-        Write-Segment "  $count " $errorFore $locationFore
+        if ($useVSTeam) {
+            $count = (Get-VSTeamPullRequest | Where-Object {$_.reviewstatus -eq 'Pending'}).Count
+            Write-Segment "  $count " $errorFore $locationFore
+        }
     }
 
     function Write-SystemStatus() {
