@@ -83,7 +83,7 @@ function prompt {
 
     function Write-OpenPullRequests() {
         if ($useVSTeam) {
-            $count = (Get-VSTeamPullRequest | Where-Object {$_.reviewstatus -eq 'Pending'}).Count
+            $count = (Get-VSTeamPullRequest | Where-Object {$_.reviewstatus -eq 'Pending'} | Measure).Count
             Write-Segment "  $count " $errorFore $locationFore
         }
     }
