@@ -1,20 +1,20 @@
 ﻿$global:lastColor = ""
 
-$defaultBackground = "Black"
-$defaultFore = "White"
-$adminColor = "Red"
-$nonAdminColor = "Green"
-$location = "Cyan"
-$locationFore = "Black"
-$errorFore = "Yellow"
-$errorBack = "DarkRed"
+$defaultBackground = [ConsoleColor]::Black
+$defaultFore = [ConsoleColor]::White
+$adminColor = [ConsoleColor]::Red
+$nonAdminColor = [ConsoleColor]::Green
+$location = [ConsoleColor]::Cyan
+$locationFore = [ConsoleColor]::Black
+$errorFore = [ConsoleColor]::Yellow
+$errorBack = [ConsoleColor]::DarkRed
 
 $usePoshGit = [bool](Get-Module posh-git)
 $useVSTeam = [bool](Get-Module vsteam)
 
-function prompt {
+Set-Content Function:prompt {
     [Console]::ResetColor()
-    $Host.UI.RawUI.ForegroundColor = $GitPromptSettings.DefaultForegroundColor
+    $Host.UI.RawUI.ForegroundColor = $GitPromptSettings.DefaultColor.ForegroundColor
 
     function Write-Title() {
         $title = (get-location).Path.replace($home, "~")
@@ -47,15 +47,15 @@ function prompt {
         if ($windowsPrincipal.IsInRole("Administrators") -eq 1) { $color = $adminColor; }
         else { $color = $nonAdminColor; }
         #Write-Segment $env:UserName@$env:computername $color Black
-        Write-Segment $env:UserName $color Black
+        Write-Segment $env:UserName $color $defaultBackground
     }
 
     function Write-GitStatus() {
         if ($usePoshGit) {
-            if (Get-GitStatus -ne $null) {
-                Write-Segment "" $GitPromptSettings.AfterBackgroundColor
-                Write-VcsStatus
-                $global:lastColor = $GitPromptSettings.AfterBackgroundColor
+            if (Get-GitDirectory -ne $null) {
+                Write-Segment "" $GitPromptSettings.AfterStatus.BackgroundColor
+                Write-Host (Write-VcsStatus) -NoNewLine
+                #$global:lastColor = $GitPromptSettings.AfterStatus.BackgroundColor
             }
         }
         else {
@@ -67,10 +67,10 @@ function prompt {
                 $dirty = $status.Length -ne 0
                 $branch = git rev-parse --abbrev-ref HEAD
                 if ($dirty) {    
-                    $back = "DarkRed"
+                    $back = [ConsoleColor]::DarkRed
                 }
                 else { 
-                    $back = "DarkBlue"
+                    $back = [ConsoleColor]::DarkBlue
                 }
                 Write-Segment " $branch " $back
             }
@@ -93,15 +93,15 @@ function prompt {
             Write-Segment "  $LASTEXITCODE " $errorBack $errorFore
         }
 
-        if ($null -ne $PromptEnvironment) {
-            Write-Segment $PromptEnvironment DarkMagenta
-        }
+        # if ($null -ne $PromptEnvironment) {
+        #     Write-Segment $PromptEnvironment DarkMagenta
+        # }
 
         $global:LASTEXITCODE = 0
 
-        if ((get-location -stack).Count -gt 0) {
-            Write-Segment (("+" * ((get-location -stack).Count))) DarkGray $location
-        }
+        # if ((get-location -stack).Count -gt 0) {
+        #     Write-Segment (("+" * ((get-location -stack).Count))) DarkGray $location
+        # }
     }
 
     function Write-End() {

@@ -9,7 +9,7 @@ if ($null -ne $PromptEnvironment) {
 }
   
 # Try and find a version of Visual Studio in the expected location, since the VS150COMNTOOLS environment variable isn't there any more
-$basePath = join-path (join-path ${env:ProgramFiles(x86)} "Microsoft Visual Studio") "2017"
+$basePath = join-path (join-path ${env:ProgramFiles(x86)} "Microsoft Visual Studio") "2019"
   
 if ((test-path $basePath) -eq $false) {
     write-warning "Visual Studio 2017 is not installed."
