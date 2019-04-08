@@ -25,7 +25,8 @@ if (Test-Path($ChocolateyProfile)) {
 Set-Location ~
 
 Set-PSReadlineOption -BellStyle None
-Set-PSReadlineOption -EditMode Emacs
+Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 function Show-Characters {
     param([System.String]$string)
