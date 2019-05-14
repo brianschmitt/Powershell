@@ -84,7 +84,8 @@ Set-Content Function:prompt {
     function Write-OpenPullRequests() {
         if ($useVSTeam) {
             $count = 0
-            try {$count = (Get-VSTeamPullRequest -ErrorAction SilentlyContinue | Where-Object {$_.reviewstatus -eq 'Pending'} | Measure-Object).Count}
+            #try {$count = (Get-VSTeamPullRequest -ErrorAction SilentlyContinue | Where-Object {$_.reviewstatus -eq 'Pending'} | Measure-Object).Count}
+            try {$count = (Get-VSTeamPullRequest | Where-Object {$_.reviewstatus -eq 'Pending' -and $developersOfInterest -contains $_.createdByUser} | Measure-Object).Count}
             catch {}
             Write-Segment "  $count " $errorFore $locationFore
         }
