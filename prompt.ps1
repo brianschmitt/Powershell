@@ -29,7 +29,7 @@ Set-Content Function:prompt {
         if ($global:lastColor -eq "") {
             $global:lastColor = $back
         }
-        Write-Host "" -NoNewline -BackgroundColor $back -ForegroundColor $global:lastColor
+        #Write-Host "" -NoNewline -BackgroundColor $back -ForegroundColor $global:lastColor
 
         if ($null -ne $back) {
             Write-Host "$value" -NoNewLine -ForegroundColor $fore -BackgroundColor $back
@@ -108,7 +108,7 @@ Set-Content Function:prompt {
     }
 
     function Write-End() {
-        Write-Segment
+        Write-Segment ">"
     }
 
     Write-Title
