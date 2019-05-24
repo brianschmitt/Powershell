@@ -65,4 +65,4 @@ function Find-GitFolders {
 
 Set-Alias -Name ff -Value Find-Item
 # hack for my git alias
-Set-Alias -Name Find -Value Find-GitFolders
+#Set-Alias -Name Find -Value Find-GitFolders
