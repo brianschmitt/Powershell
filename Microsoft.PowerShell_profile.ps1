@@ -10,6 +10,7 @@ Import-Module -Name VSTeam
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/prompt.ps1')
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/set-skype.ps1')
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/car.ps1')
 
 #Set-Item  -Path 'ENV:\GREP_OPTIONS' -Value '--color=auto --exclude-dir=.git'
 
@@ -48,18 +49,18 @@ Set-Alias  -Name ver  -Value Get-PSVersion # Type ver to get version information
 
 function Show-ModuleUpdates {
     Get-Module -ListAvailable |
-        Where-Object ModuleBase -like $env:ProgramFiles\WindowsPowerShell\Modules\* |
-        Sort-Object -Property Name, Version -Descending |
-        Get-Unique -PipelineVariable Module |
-        ForEach-Object {
+    Where-Object ModuleBase -like $env:ProgramFiles\WindowsPowerShell\Modules\* | 
+    Sort-Object -Property Name, Version -Descending |
+    Get-Unique -PipelineVariable Module |
+    ForEach-Object {
         if (-not(Test-Path -Path "$($_.ModuleBase)\PSGetModuleInfo.xml")) {
             Find-Module -Name $_.Name -OutVariable Repo -ErrorAction SilentlyContinue |
-                Compare-Object -ReferenceObject $_ -Property Name, Version |
-                Where-Object SideIndicator -eq '=>' |
-                Select-Object -Property Name,
+            Compare-Object -ReferenceObject $_ -Property Name, Version |
+            Where-Object SideIndicator -eq '=>' |
+            Select-Object -Property Name,
             Version,
-            @{label = 'Repository'; expression = {$Repo.Repository}},
-            @{label = 'InstalledVersion'; expression = {$Module.Version}}
+            @{label = 'Repository'; expression = { $Repo.Repository } },
+            @{label = 'InstalledVersion'; expression = { $Module.Version } }
         }
     }
 }

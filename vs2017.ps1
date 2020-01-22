@@ -2,6 +2,8 @@
     [string]$edition,
     [switch]$noWeb = $false
 )
+
+$vsver = "2019"
   
 if ($null -ne $PromptEnvironment) {
     write-host "error: Prompt is already in a custom environment." -ForegroundColor Red
@@ -9,21 +11,21 @@ if ($null -ne $PromptEnvironment) {
 }
   
 # Try and find a version of Visual Studio in the expected location, since the VS150COMNTOOLS environment variable isn't there any more
-$basePath = join-path (join-path ${env:ProgramFiles(x86)} "Microsoft Visual Studio") "2019"
+$basePath = join-path (join-path ${env:ProgramFiles(x86)} "Microsoft Visual Studio") $vsver
   
 if ((test-path $basePath) -eq $false) {
-    write-warning "Visual Studio 2017 is not installed."
+    write-warning "Visual Studio $vsver is not installed."
     exit 1
 }
   
 if ($edition -eq "") {
     $editions = (get-childitem $basePath | where-object { $_.PSIsContainer })
     if ($editions.Count -eq 0) {
-        write-warning "Visual Studio 2017 is not installed."
+        write-warning "Visual Studio $edition is not installed."
         exit 1
     }
     if ($editions.Count -gt 1) {
-        write-warning "Multiple editions of Visual Studio 2017 are installed. Please specify one of the editions ($($editions -join ', ')) with the -edition switch."
+        write-warning "Multiple editions of Visual Studio $edition are installed. Please specify one of the editions ($($editions -join ', ')) with the -edition switch."
         exit 1
     }
     $edition = $editions[0].Name
@@ -32,7 +34,7 @@ if ($edition -eq "") {
 $path = join-path (join-path (join-path $basePath $edition) "Common7") "Tools"
   
 if ((test-path $path) -eq $false) {
-    write-warning "Visual Studion 2017 $edition could not be found."
+    write-warning "Visual Studion $edition $edition could not be found."
     exit 1
 }
   
