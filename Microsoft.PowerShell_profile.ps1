@@ -25,8 +25,8 @@ Remove-Item  -Path alias:wget -ErrorAction SilentlyContinue
 Set-Location ~
 
 Set-PSReadlineOption -BellStyle None
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+#Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+#Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 function Show-Characters {
     param([System.String]$string)
