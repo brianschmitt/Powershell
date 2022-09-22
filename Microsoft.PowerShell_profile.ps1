@@ -6,12 +6,10 @@ Import-Module -Name VSTeam
 
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/vs2017.ps1') # Set environment variables for Visual Studio Command Prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/work/apci.ps1') # Helper functions to assist with AP commands
 
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/prompt.ps1')
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/set-skype.ps1')
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/car.ps1')
+. (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/work.ps1')
 
 Remove-Item  -Path alias:curl -ErrorAction SilentlyContinue
 Remove-Item  -Path alias:wget -ErrorAction SilentlyContinue
