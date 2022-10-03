@@ -3,7 +3,7 @@
     [switch]$noWeb = $false
 )
 
-$vsver = "2019"
+$vsver = "2022"
   
 if ($null -ne $PromptEnvironment) {
     write-host "error: Prompt is already in a custom environment." -ForegroundColor Red
@@ -11,7 +11,7 @@ if ($null -ne $PromptEnvironment) {
 }
   
 # Try and find a version of Visual Studio in the expected location, since the VS150COMNTOOLS environment variable isn't there any more
-$basePath = join-path (join-path ${env:ProgramFiles(x86)} "Microsoft Visual Studio") $vsver
+$basePath = join-path (join-path ${env:ProgramFiles} "Microsoft Visual Studio") $vsver
   
 if ((test-path $basePath) -eq $false) {
     write-warning "Visual Studio $vsver is not installed."
