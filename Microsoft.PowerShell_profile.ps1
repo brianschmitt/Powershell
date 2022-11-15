@@ -1,7 +1,7 @@
 ﻿Import-Module -Name PSReadline
 Import-Module -Name posh-git
-Import-Module -Name SHiPS
-Import-Module -Name VSTeam
+#Import-Module -Name SHiPS
+#Import-Module -Name VSTeam
 
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/vs2017.ps1') # Set environment variables for Visual Studio Command Prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
