@@ -20,6 +20,9 @@ Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
+
+$PSStyle.FileInfo.Directory = "" #disable directory colorization
+
 function Show-Characters {
     param([System.String]$string)
     $string.ToCharArray() | ForEach-Object  -Process {
