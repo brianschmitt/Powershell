@@ -7,7 +7,7 @@ Import-Module -Name posh-git
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/directory.ps1') # Helper functions to assist with directory list commands
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/gitprompt.ps1') # settings for git prompt
 . (Join-Path  -Path $PSScriptRoot  -ChildPath '/prompt.ps1')
-. (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/work.ps1')
+#. (Join-Path  -Path $PSScriptRoot  -ChildPath '/wip/work.ps1')
 
 Remove-Item  -Path alias:curl -ErrorAction SilentlyContinue
 Remove-Item  -Path alias:wget -ErrorAction SilentlyContinue
