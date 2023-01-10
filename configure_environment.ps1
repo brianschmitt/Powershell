@@ -10,3 +10,4 @@ Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
 #Install-Module -Name PSSudo -Force -Scope CurrentUser
 
 Install-Module -Name posh-git -Force -Scope CurrentUser
+Install-Module -Name posh-sshell -Scope CurrentUser
