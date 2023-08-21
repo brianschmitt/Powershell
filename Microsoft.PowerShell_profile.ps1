@@ -20,7 +20,7 @@ function Get-PSVersion {
 Set-Alias -Name ver  -Value Get-PSVersion # Type ver to get version information...
 
 function Set-GitaFolder($project) {
-    Set-Location (gita ls -h $project)
+    Set-Location (gita ls $project)
 }
 Set-Alias -Name cdga  -Value Set-GitaFolder
 
