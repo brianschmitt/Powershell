@@ -10,7 +10,7 @@ function Find-Item {
     }
 }
 function Find-GitFolders {
-    Get-ChildItem -Directory -Hidden -Recurse | Where-Object {$_.BaseName -eq ".git"} | Select-Object fullname
+    Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse | Select-Object fullname
 }
 
 Set-Alias -Name ff -Value Find-Item
