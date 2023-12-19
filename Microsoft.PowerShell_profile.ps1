@@ -7,6 +7,8 @@ Import-Module -Name posh-git
 . (Join-Path -Path $PSScriptRoot -ChildPath '/_rg.ps1')
 . (Join-Path -Path $PSScriptRoot -ChildPath '/wip/work.ps1')
 
+$ENV:EDITOR = "C:\Program Files\Microsoft VS Code\Code.exe"
+
 Set-PSReadlineOption -BellStyle None
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
@@ -28,3 +30,16 @@ Set-Alias -Name ll -Value Get-ChildItem -Force
 Set-Alias -Name la -Value Get-ChildItem -Force
 
 Start-SshAgent -Quiet
+
+function Edit-FileFuzzy() {
+    $result = $(fzf)
+    if ($result) {
+        & code $result.Split(': ')[0]
+    }
+}
+Set-Alias -Name ef -Value Edit-FileFuzzy
+
+function Set-LocationFuzzy {
+    Set-Location (Get-Item $(fzf)).Directory.FullName
+}
+Set-Alias -Name cdf -Value Set-LocationFuzzy
