@@ -43,3 +43,14 @@ function Set-LocationFuzzy {
     Set-Location (Get-Item $(fzf)).Directory.FullName
 }
 Set-Alias -Name cdf -Value Set-LocationFuzzy
+
+function Open-MyBranches {
+    gita super open --suffix branches/yours
+}
+Set-Alias -Name gomb -Value Open-MyBranches
+
+function Get-GithubNotifications {
+    # REQUIRES: gh ext install meiji163/gh-notify
+    gh notify
+}
+Set-Alias -Name ghn -Value Get-GithubNotifications
