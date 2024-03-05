@@ -15,19 +15,20 @@ Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 $PSStyle.FileInfo.Directory = "`e[32;1m"
+$UserDefinedAliasDescription = 'userdefined';
 
 function Get-PSVersion {
     Write-Output -InputObject $PSVersionTable
 }
-Set-Alias -Name ver  -Value Get-PSVersion # Type ver to get version information...
+Set-Alias -Name ver  -Value Get-PSVersion -Description $UserDefinedAliasDescription
 
 function Set-GitaFolder($project) {
     Set-Location (gita ls $project)
 }
-Set-Alias -Name cdga  -Value Set-GitaFolder
+Set-Alias -Name cdga  -Value Set-GitaFolder -Description $UserDefinedAliasDescription
 
-Set-Alias -Name ll -Value Get-ChildItem -Force
-Set-Alias -Name la -Value Get-ChildItem -Force
+Set-Alias -Name ll -Value Get-ChildItem -Force -Description $UserDefinedAliasDescription
+Set-Alias -Name la -Value Get-ChildItem -Force -Description $UserDefinedAliasDescription
 
 Start-SshAgent -Quiet
 
@@ -37,20 +38,28 @@ function Edit-FileFuzzy() {
         & code $result.Split(': ')[0]
     }
 }
-Set-Alias -Name ef -Value Edit-FileFuzzy
+Set-Alias -Name ef -Value Edit-FileFuzzy -Description $UserDefinedAliasDescription
 
 function Set-LocationFuzzy {
-    Set-Location (Get-Item $(fzf)).Directory.FullName
+    $result = $(fzf)
+    if ($result) {
+        Set-Location (Get-Item $($result)).Directory.FullName
+    }
 }
-Set-Alias -Name cdf -Value Set-LocationFuzzy
+Set-Alias -Name cdf -Value Set-LocationFuzzy -Description $UserDefinedAliasDescription
 
 function Open-MyBranches {
     gita super open --suffix branches/yours
 }
-Set-Alias -Name gomb -Value Open-MyBranches
+Set-Alias -Name gomb -Value Open-MyBranches -Description $UserDefinedAliasDescription
 
 function Get-GithubNotifications {
     # REQUIRES: gh ext install meiji163/gh-notify
     gh notify
 }
-Set-Alias -Name ghn -Value Get-GithubNotifications
+Set-Alias -Name ghn -Value Get-GithubNotifications -Description $UserDefinedAliasDescription
+
+function Get-MyAlias {
+    Get-Alias | Where-Object -Property Description -eq $UserDefinedAliasDescription
+}
+Set-Alias -Name gma -Value Get-MyAlias -Description $UserDefinedAliasDescription

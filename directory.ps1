@@ -13,4 +13,4 @@ function Find-GitFolders {
     Get-ChildItem . -Attributes Directory+Hidden -ErrorAction SilentlyContinue -Filter ".git" -Recurse | Select-Object fullname
 }
 
-Set-Alias -Name ff -Value Find-Item
+Set-Alias -Name ff -Value Find-Item -Description 'userdefined'
