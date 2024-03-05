@@ -13,5 +13,3 @@ Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
 
 Install-Module -Name posh-git -Force -Scope CurrentUser
 Install-Module -Name posh-sshell -Scope CurrentUser
-
-#Get-Service ssh-agent | Set-Service -StartupType Automatic -PassThru | Start-Service
