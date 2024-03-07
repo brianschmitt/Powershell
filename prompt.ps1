@@ -66,10 +66,10 @@ Set-Content Function:prompt {
                 $status = git status --porcelain --ignore-submodules
                 $dirty = $status.Length -ne 0
                 $branch = git rev-parse --abbrev-ref HEAD
-                if ($dirty) {    
+                if ($dirty) {
                     $back = [ConsoleColor]::DarkRed
                 }
-                else { 
+                else {
                     $back = [ConsoleColor]::DarkBlue
                 }
                 Write-Segment " $branch " $back
@@ -112,10 +112,10 @@ Set-Content Function:prompt {
     }
 
     Write-Title
-    Write-User
+    #Write-User
     Write-SystemStatus
     Write-Location
-    Write-OpenPullRequests
+    #Write-OpenPullRequests
     Write-GitStatus
     Write-End
 

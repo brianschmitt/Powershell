@@ -3,7 +3,6 @@
 ### Files
 * Microsoft.Powershell_profile - Main PS profile
 * Nuget_profile - Profile that VS loads
-* directory - Pretty display
 * visualstudio - Re-factoring routines for Visual Studio
 * vs2017 - Set-up a PS command prompt with the Visual Studio command prompt
 
@@ -12,5 +11,5 @@
 ```shell
 cd %HOME%
 git clone https://github.com/brianschmitt/powershell
-~/powershell/set_symlink.bat
+. ./powershell/configure_environment.ps1
 ```
