@@ -11,6 +11,8 @@ $ENV:EDITOR = "C:\Program Files\Microsoft VS Code\Code.exe"
 
 Set-PSReadlineOption -BellStyle None
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
