@@ -13,6 +13,7 @@ Set-PSReadlineOption -BellStyle None
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -AddToHistoryHandler { $true } # allows some keywords to log to history
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
