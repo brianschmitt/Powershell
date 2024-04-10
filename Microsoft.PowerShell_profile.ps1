@@ -22,8 +22,10 @@ $UserDefinedAliasDescription = 'userdefined';
 
 Start-SshAgent -Quiet
 
-Set-Alias -Name ll -Value Get-ChildItem -Force -Description $UserDefinedAliasDescription
-Set-Alias -Name la -Value Get-ChildItem -Force -Description $UserDefinedAliasDescription
+function Get-ChildItemLong {
+    Get-ChildItem -Force
+}
+Set-Alias -Name ll -Value Get-ChildItemLong -Description $UserDefinedAliasDescription
 
 function Get-PSVersion {
     Write-Output -InputObject $PSVersionTable
